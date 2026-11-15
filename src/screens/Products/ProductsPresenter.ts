@@ -46,6 +46,7 @@ export const ProductsPresenter = () => {
   const loadingRef = useRef<boolean>(false);
   const failedRequestRef = useRef<FailedRequest | null>(null);
   const controllerRef = useRef<AbortController | null>(null);
+  const categoriesControllerRef = useRef<AbortController | null>(null);
 
   const productDebounce = useDebounce(filterProduct)
 
@@ -60,14 +61,19 @@ export const ProductsPresenter = () => {
     getAllCategories();
     return () => {
       controllerRef.current?.abort();
+      categoriesControllerRef.current?.abort();
     };
   }, []);
 
   async function getAllCategories() {
+    const controller = new AbortController();
+    categoriesControllerRef.current = controller;
     try {
-      const resp = await getAllCategoryListService();
+      const resp = await getAllCategoryListService(controller.signal);
+      if (controller.signal.aborted) return;
       setOptionsCategories([allCategory, ...resp]);
     } catch (categoryError) {
+      if (isAbortError(categoryError)) return;
       console.error(categoryError)
     }
   };

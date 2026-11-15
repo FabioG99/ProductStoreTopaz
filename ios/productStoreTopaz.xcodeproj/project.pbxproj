@@ -11,7 +11,7 @@
 		761780ED2CA45674006654EE /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 761780EC2CA45674006654EE /* AppDelegate.swift */; };
 		7A5DAF4E592F44F7B6A4A217 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A5DAF4D592F44F7B6A4A217 /* SceneDelegate.swift */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
-		DC29EFDC4055B48A8E5B48C0 /* libPods-productStoreTopaz.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E7B71B2E45CB274088D6AC0A /* libPods-productStoreTopaz.a */; };
+		C88D57D9CAD8BE58F5F58A5A /* libPods-productStoreTopaz.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7376483796B3F2BD6976D652 /* libPods-productStoreTopaz.a */; };
 		E70154D2CC0283139A3E8C0C /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB81A68108700A75B9A /* PrivacyInfo.xcprivacy */; };
 /* End PBXBuildFile section */
 
@@ -20,12 +20,12 @@
 		13B07FB51A68108700A75B9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = productStoreTopaz/Images.xcassets; sourceTree = "<group>"; };
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = productStoreTopaz/Info.plist; sourceTree = "<group>"; };
 		13B07FB81A68108700A75B9A /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = PrivacyInfo.xcprivacy; path = productStoreTopaz/PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
-		74080852FD6D1414475F843F /* Pods-productStoreTopaz.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-productStoreTopaz.debug.xcconfig"; path = "Target Support Files/Pods-productStoreTopaz/Pods-productStoreTopaz.debug.xcconfig"; sourceTree = "<group>"; };
+		7376483796B3F2BD6976D652 /* libPods-productStoreTopaz.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-productStoreTopaz.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		761780EC2CA45674006654EE /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = AppDelegate.swift; path = productStoreTopaz/AppDelegate.swift; sourceTree = "<group>"; };
 		7A5DAF4D592F44F7B6A4A217 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = SceneDelegate.swift; path = productStoreTopaz/SceneDelegate.swift; sourceTree = "<group>"; };
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = productStoreTopaz/LaunchScreen.storyboard; sourceTree = "<group>"; };
-		DE6E8E992539B15A47AFE107 /* Pods-productStoreTopaz.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-productStoreTopaz.release.xcconfig"; path = "Target Support Files/Pods-productStoreTopaz/Pods-productStoreTopaz.release.xcconfig"; sourceTree = "<group>"; };
-		E7B71B2E45CB274088D6AC0A /* libPods-productStoreTopaz.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-productStoreTopaz.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		CDFDABA891F9D8C8EE53C2E0 /* Pods-productStoreTopaz.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-productStoreTopaz.release.xcconfig"; path = "Target Support Files/Pods-productStoreTopaz/Pods-productStoreTopaz.release.xcconfig"; sourceTree = "<group>"; };
+		DE842EBD1494EDC14A171D6A /* Pods-productStoreTopaz.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-productStoreTopaz.debug.xcconfig"; path = "Target Support Files/Pods-productStoreTopaz/Pods-productStoreTopaz.debug.xcconfig"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
@@ -34,7 +34,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				DC29EFDC4055B48A8E5B48C0 /* libPods-productStoreTopaz.a in Frameworks */,
+				C88D57D9CAD8BE58F5F58A5A /* libPods-productStoreTopaz.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -58,7 +58,7 @@
 			isa = PBXGroup;
 			children = (
 				ED297162215061F000B7C4FE /* JavaScriptCore.framework */,
-				E7B71B2E45CB274088D6AC0A /* libPods-productStoreTopaz.a */,
+				7376483796B3F2BD6976D652 /* libPods-productStoreTopaz.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -95,8 +95,8 @@
 		BBD78D7AC51CEA395F1C20DB /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				74080852FD6D1414475F843F /* Pods-productStoreTopaz.debug.xcconfig */,
-				DE6E8E992539B15A47AFE107 /* Pods-productStoreTopaz.release.xcconfig */,
+				DE842EBD1494EDC14A171D6A /* Pods-productStoreTopaz.debug.xcconfig */,
+				CDFDABA891F9D8C8EE53C2E0 /* Pods-productStoreTopaz.release.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -108,13 +108,13 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "productStoreTopaz" */;
 			buildPhases = (
-				E4A55A165DB4A51B9DBCE62D /* [CP] Check Pods Manifest.lock */,
+				946FFF641D76F5D114B79902 /* [CP] Check Pods Manifest.lock */,
 				13B07F871A680F5B00A75B9A /* Sources */,
 				13B07F8C1A680F5B00A75B9A /* Frameworks */,
 				13B07F8E1A680F5B00A75B9A /* Resources */,
 				00DD1BFF1BD5951E006B06BC /* Bundle React Native code and images */,
-				0A7714C00F93C0BD4280999D /* [CP] Embed Pods Frameworks */,
-				F2EB8B985DF1B394BCA7D491 /* [CP] Copy Pods Resources */,
+				9ECE57B08616EFE1B0CCC4F3 /* [CP] Embed Pods Frameworks */,
+				63A47C7E8E61FFD42A8E0587 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -186,24 +186,24 @@
 			shellPath = /bin/sh;
 			shellScript = "set -e\n\nWITH_ENVIRONMENT=\"$REACT_NATIVE_PATH/scripts/xcode/with-environment.sh\"\nREACT_NATIVE_XCODE=\"$REACT_NATIVE_PATH/scripts/react-native-xcode.sh\"\n\n/bin/sh -c \"$WITH_ENVIRONMENT $REACT_NATIVE_XCODE\"\n";
 		};
-		0A7714C00F93C0BD4280999D /* [CP] Embed Pods Frameworks */ = {
+		63A47C7E8E61FFD42A8E0587 /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-productStoreTopaz/Pods-productStoreTopaz-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+				"${PODS_ROOT}/Target Support Files/Pods-productStoreTopaz/Pods-productStoreTopaz-resources-${CONFIGURATION}-input-files.xcfilelist",
 			);
-			name = "[CP] Embed Pods Frameworks";
+			name = "[CP] Copy Pods Resources";
 			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-productStoreTopaz/Pods-productStoreTopaz-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+				"${PODS_ROOT}/Target Support Files/Pods-productStoreTopaz/Pods-productStoreTopaz-resources-${CONFIGURATION}-output-files.xcfilelist",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-productStoreTopaz/Pods-productStoreTopaz-frameworks.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-productStoreTopaz/Pods-productStoreTopaz-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		E4A55A165DB4A51B9DBCE62D /* [CP] Check Pods Manifest.lock */ = {
+		946FFF641D76F5D114B79902 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -225,21 +225,21 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		F2EB8B985DF1B394BCA7D491 /* [CP] Copy Pods Resources */ = {
+		9ECE57B08616EFE1B0CCC4F3 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-productStoreTopaz/Pods-productStoreTopaz-resources-${CONFIGURATION}-input-files.xcfilelist",
+				"${PODS_ROOT}/Target Support Files/Pods-productStoreTopaz/Pods-productStoreTopaz-frameworks-${CONFIGURATION}-input-files.xcfilelist",
 			);
-			name = "[CP] Copy Pods Resources";
+			name = "[CP] Embed Pods Frameworks";
 			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-productStoreTopaz/Pods-productStoreTopaz-resources-${CONFIGURATION}-output-files.xcfilelist",
+				"${PODS_ROOT}/Target Support Files/Pods-productStoreTopaz/Pods-productStoreTopaz-frameworks-${CONFIGURATION}-output-files.xcfilelist",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-productStoreTopaz/Pods-productStoreTopaz-resources.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-productStoreTopaz/Pods-productStoreTopaz-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -259,7 +259,7 @@
 /* Begin XCBuildConfiguration section */
 		13B07F941A680F5B00A75B9A /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 74080852FD6D1414475F843F /* Pods-productStoreTopaz.debug.xcconfig */;
+			baseConfigurationReference = DE842EBD1494EDC14A171D6A /* Pods-productStoreTopaz.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
@@ -287,7 +287,7 @@
 		};
 		13B07F951A680F5B00A75B9A /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = DE6E8E992539B15A47AFE107 /* Pods-productStoreTopaz.release.xcconfig */;
+			baseConfigurationReference = CDFDABA891F9D8C8EE53C2E0 /* Pods-productStoreTopaz.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;

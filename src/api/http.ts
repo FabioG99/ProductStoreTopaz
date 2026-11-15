@@ -7,16 +7,16 @@ export async function http<T>(
   requestOptions: RequestOptions = {}
 ): Promise<T> {
   try {
-    const { body, params, headers } = requestOptions
-    let response: Response;
-    const url = buildUrl(path, params)
+    const { body, params, headers, ...fetchOptions } = requestOptions;
+    const url = buildUrl(path, params);
 
-    response = await fetch(url, {
+    const response = await fetch(url, {
+      ...fetchOptions,
       headers: {
         "Content-Type": "application/json",
-        ...headers
+        ...headers,
       },
-      body: JSON.stringify(body),
+      ...(body === undefined ? {} : { body: JSON.stringify(body) }),
     });
 
     const data = await response.json().catch(() => undefined);
