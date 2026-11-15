@@ -1,25 +1,25 @@
 import type {
-  CompositeScreenProps,
   NavigatorScreenParams,
+  RouteProp,
 } from '@react-navigation/native';
-import type { StackScreenProps } from '@react-navigation/stack';
-import type { BottomTabScreenProps } from '@react-navigation/bottom-tabs';
+import type { NativeStackScreenProps } from '@react-navigation/native-stack';
 
 export type RootStackParamList = {
-  Dashboard: NavigatorScreenParams<DashboardList>;
+  Dashboard: NavigatorScreenParams<RootTabParamList>;
+  Details: { ProductId: number };
 };
 
 export type RootStackScreenProps<T extends keyof RootStackParamList> =
-  StackScreenProps<RootStackParamList, T>;
+  NativeStackScreenProps<RootStackParamList, T>;
 
-export type DashboardList = {
-  Products: undefined;
-  Details: { ProductId: number };
+export type RootTabParamList = {
+  Products: NavigatorScreenParams<ProductsStackParamList>;
   Favorites: undefined;
 };
 
-export type HomeTabScreenProps<T extends keyof DashboardList> =
-  CompositeScreenProps<
-    BottomTabScreenProps<DashboardList, T>,
-    RootStackScreenProps<'Dashboard'>
-  >;
+export type ProductsStackParamList = {
+  ProductList: undefined;
+};
+
+export type ProductDetailsRoute = RouteProp<RootStackParamList, 'Details'>;
+export type ProductDetailsScreenProps = NativeStackScreenProps<RootStackParamList, 'Details'>;

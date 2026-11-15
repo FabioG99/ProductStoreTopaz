@@ -4,7 +4,6 @@ import { ProductCard } from '../../components/ProductCard/ProductCard';
 
 // Libraries
 import { SafeAreaView } from 'react-native-safe-area-context';
-// import { Ionicons } from '@react-native-vector-icons/ionicons';
 import { ActivityIndicator, FlatList, Pressable, ScrollView, Text, TextInput, View } from 'react-native';
 
 // Presenter

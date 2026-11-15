@@ -9,23 +9,31 @@ import { ProductDetails } from '../ProductDetails/ProductDetailsScreen';
 import { FavoriteProducts } from '../FavoriteProducts/FavoriteProductsScreen';
 
 // Types
-import type { DashboardList, RootStackParamList } from './types';
+import type { ProductsStackParamList, RootStackParamList, RootTabParamList } from './types';
 
-const Stack = createNativeStackNavigator<RootStackParamList>();
-const Tab = createBottomTabNavigator<DashboardList>();
+const RootStackNavigator = createNativeStackNavigator<RootStackParamList>();
+const ProductsStackNavigator = createNativeStackNavigator<ProductsStackParamList>();
+const Tab = createBottomTabNavigator<RootTabParamList>();
+
+function ProductsStack() {
+  return (
+    <ProductsStackNavigator.Navigator>
+      <ProductsStackNavigator.Screen
+        name="ProductList"
+        component={Products}
+        options={{ title: 'Productos', headerShown: false }}
+      />
+    </ProductsStackNavigator.Navigator>
+  );
+}
 
 function DashboardTabs() {
   return (
     <Tab.Navigator>
       <Tab.Screen
         name="Products"
-        component={Products}
+        component={ProductsStack}
         options={{ title: "Productos", headerShown: false }}
-      />
-      <Tab.Screen
-        name="Details"
-        component={ProductDetails}
-        options={{ title: "Detalles del Producto", headerShown: false }}
       />
       <Tab.Screen
         name="Favorites"
@@ -38,20 +46,19 @@ function DashboardTabs() {
 
 const RootStack = () => {
   return (
-    <Stack.Navigator initialRouteName='Dashboard'>
-      <Stack.Screen
+    <RootStackNavigator.Navigator initialRouteName='Dashboard'>
+      <RootStackNavigator.Screen
         name="Dashboard"
         component={DashboardTabs}
         options={{ headerShown: false }}
       />
-    </Stack.Navigator>
+      <RootStackNavigator.Screen
+        name="Details"
+        component={ProductDetails}
+        options={{ title: 'Detalles del producto' , headerShown: false}}
+      />
+    </RootStackNavigator.Navigator>
   );
 }
 
-type RootStackType = typeof RootStack;
-
-declare module '@react-navigation/native' {
-  interface RootNavigator extends RootStackType { }
-}
-
-export default RootStack
+export default RootStack;

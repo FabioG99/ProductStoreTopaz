@@ -2,8 +2,7 @@
 import { useEffect, useState } from "react"
 
 // Interfaces
-import { DashboardList } from "../Navigation/types";
-import { RouteProp } from "@react-navigation/native";
+import { ProductDetailsRoute } from "../Navigation/types";
 import { Product } from "../../api/interface/Product";
 
 // Services
@@ -17,7 +16,7 @@ import { isAbortError } from "../../shared/utils/generalFunction";
 import { getDiscountedPrice, getDiscountValue } from "../../shared/utils/generalFunction";
 
 
-export const ProductDetailsPresenter = (route: RouteProp<DashboardList, "Details">) => {
+export const ProductDetailsPresenter = (route: ProductDetailsRoute) => {
 
   const [productDetail, setProducDetail] = useState<Product | undefined>(undefined)
 

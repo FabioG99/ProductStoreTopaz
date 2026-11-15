@@ -1,5 +1,5 @@
 // Interfaces
-import { HomeTabScreenProps } from '../Navigation/types';
+import { ProductDetailsScreenProps } from '../Navigation/types';
 
 // Components
 import { ProductCarousel } from './components/ProductCarousel/ProductCarousel';
@@ -18,7 +18,7 @@ import { ProductDetailsPresenter } from './ProductDetailsPresenter';
 import { formatPrice } from '../../shared/utils/generalFunction';
 import { StarRating } from './components/StarRating/StartRating';
 
-export const ProductDetails = ({ route }: HomeTabScreenProps<'Details'>) => {
+export const ProductDetails = ({ route }: ProductDetailsScreenProps) => {
 
   const {
     //Variables

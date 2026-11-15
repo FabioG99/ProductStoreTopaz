@@ -125,6 +125,10 @@ export const useProductStore = create<ProductState>()(
 
 Esta solución es adecuada para una app de este tamaño porque centraliza el estado y mantiene la UI reactiva sin depender de un store más pesado o de una configuración compleja como Redux Toolkit.
 
+### Imágenes y rendimiento de listas
+
+Las imágenes remotas de las tarjetas de producto y del carrusel de detalle usan `@d11/react-native-fast-image` (`8.13.0`) en lugar de `Image`. Se configura `cacheControl.immutable` porque las URLs públicas de imágenes de producto son estables; la caché usa la URI como identificador y evita volver a descargar recursos ya almacenados. En el carrusel se conserva `contain` para mostrar las imágenes completas.
+
 ### Networking
 
 La capa de red usa `fetch` y se concentra en `src/api/http.ts` y `src/api/services.ts`, evitando llamadas directas desde las pantallas. La URL base se configura en un único lugar, `src/shared/utils/constants.ts` (`BASE_URL`), para poder cambiar el host sin modificar los servicios individuales. `buildUrl()` agrega los parámetros de consulta.
@@ -135,7 +139,9 @@ Las pantallas/presenters crean un `AbortController` por ciclo de vida de solicit
 
 ### Persistencia local
 
-El estado de favoritos se mantiene actualmente en memoria mediante Zustand. Esta estrategia permite una actualización reactiva inmediata entre las pantallas, pero no persiste a reinicios de la app ni a una nueva sesión del usuario. En una versión productiva se recomienda migrar esta capa a `react-native-mmkv` para guardar la lista de favoritos de forma local y persistente sin depender de un backend.
+Los favoritos se persisten localmente con `@react-native-async-storage/async-storage` (`2.2.0`) integrado al store global mediante el middleware `persist` de Zustand. Se eligió AsyncStorage porque la app solo necesita guardar una lista pequeña de productos en JSON; su API asíncrona y el autolinking de React Native cubren este caso sin añadir una solución de almacenamiento más compleja. No se envían favoritos a ningún backend o servicio cloud.
+
+La clave persistida es `productStore-favorites`. La opción `partialize` limita el contenido guardado a `products` (la lista de favoritos), y `createJSONStorage` serializa e hidrata ese estado al iniciar la app. La hidratación es asíncrona: la interfaz no debe asumir que el store ya terminó de restaurarse en el primer render. Para verificar la persistencia manualmente, agrega un favorito, cierra y vuelve a abrir la app y confirma que sigue en Favoritos; después elimínalo y comprueba que no reaparece.
 
 ### Arquitectura
 
@@ -149,6 +155,10 @@ La solución adopta una organización por capas con separación de responsabilid
 - `shared/`: utilidades y constantes compartidas
 
 Esto ayuda a mantener el flujo de la app más predecible y facilita la prueba unitaria sin mezclar lógica de negocio con render.
+
+### Navegación
+
+La navegación usa un stack raíz con el dashboard de tabs (Productos y Favoritos) y la pantalla de detalle. Productos conserva un stack interno para su lista. Detalle se presenta encima del dashboard, por lo que al abrirlo desde Productos o Favoritos, la acción Atrás regresa a la pestaña que estaba activa. Los tipos `RootTabParamList` y `ProductsStackParamList` describen las rutas anidadas; `RootStackParamList` tipa el detalle y su parámetro `ProductId`.
 
 # Troubleshooting
 

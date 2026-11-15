@@ -1,3 +1,4 @@
+
 # Resolve react_native_pods.rb with node to allow for hoisting
 require Pod::Executable.execute_command('node', ['-p',
   'require.resolve(
@@ -31,11 +32,15 @@ target 'productStoreTopaz' do
       :mac_catalyst_enabled => false,
       # :ccache_enabled => true
     )
-    
+
     installer.pods_project.targets.each do |target|
-      if target.name == 'fmt'
-        target.build_configurations.each do |config|
-          config.build_settings['CLANG_CXX_LANGUAGE_STANDARD'] = 'c++17'
+      target.build_configurations.each do |build_config|
+        # Fix minimum iOS deployment target
+        build_config.build_settings['IPHONEOS_DEPLOYMENT_TARGET'] = '15.0'
+
+        # Preserve fmt C++17 configuration
+        if target.name == 'fmt'
+          build_config.build_settings['CLANG_CXX_LANGUAGE_STANDARD'] = 'c++17'
         end
       end
     end

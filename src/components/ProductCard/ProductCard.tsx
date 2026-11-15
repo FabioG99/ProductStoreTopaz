@@ -2,7 +2,8 @@
 import { Product } from '../../api/interface/Product';
 
 // Libraries
-import { Image, Pressable, Text, View } from 'react-native';
+import { Pressable, Text, View } from 'react-native';
+import FastImage from '@d11/react-native-fast-image';
 
 // Presenter
 import { ProductCardPresenter } from './ProductCardPresenter';
@@ -36,9 +37,12 @@ export const ProductCard = ({ item }: { item: Product }) => {
     >
       <View style={ProductCardStyles.imageWrap}>
         {item.thumbnail ? (
-          <Image
+          <FastImage
             style={ProductCardStyles.image}
-            source={{ uri: item.thumbnail }}
+            source={{
+              uri: item.thumbnail,
+              cache: FastImage.cacheControl.immutable,
+            }}
           />
         ) : (
           <View style={ProductCardStyles.image} />

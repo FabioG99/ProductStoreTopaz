@@ -3,7 +3,7 @@ import { NavigationProp, useNavigation } from "@react-navigation/native";
 
 // Interface
 import { Product } from "../../api/interface/Product";
-import { DashboardList } from "../../screens/Navigation/types";
+import { RootStackParamList } from "../../screens/Navigation/types";
 
 // Store
 import { useProductStore } from "../../store/ProductsStore";
@@ -13,7 +13,7 @@ import { getDiscountedPrice, getDiscountValue } from "../../shared/utils/general
 
 export const ProductCardPresenter = (item: Product) => {
 
-  const { navigate } = useNavigation<NavigationProp<DashboardList>>();
+  const { navigate } = useNavigation<NavigationProp<RootStackParamList>>();
 
   // Store - States
   const isFavoriteStore = useProductStore((state) => state.products.some((product) => product.id === item.id));

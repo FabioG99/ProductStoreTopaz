@@ -1,5 +1,6 @@
 // Libraries
-import { View, Image, FlatList } from 'react-native';
+import { View, FlatList } from 'react-native';
+import FastImage from '@d11/react-native-fast-image';
 
 // Styles
 import { ProductCarouselStyle } from './ProductCarouselStyle';
@@ -43,9 +44,12 @@ export const ProductCarousel = ({ images }: Props) => {
             index: i,
           })}
           renderItem={({ item }) => (
-            <Image
-              resizeMode="contain"
-              source={{ uri: item }}
+            <FastImage
+              resizeMode={FastImage.resizeMode.contain}
+              source={{
+                uri: item,
+                cache: FastImage.cacheControl.immutable,
+              }}
               style={{ width: size.width, height: size.height }}
             />
           )}
