@@ -1,4 +1,5 @@
 // Components
+import { RetryError } from './components/RetryError/RetryError';
 import { ProductCard } from '../../components/ProductCard/ProductCard';
 
 // Libraries
@@ -17,6 +18,7 @@ export const Products = () => {
 
   const {
     // Variables
+    error,
     loading,
     filterProduct,
     activeCategory,
@@ -24,6 +26,7 @@ export const Products = () => {
     optionsCategories,
 
     // Actions
+    retry,
     loadMore,
     setFilterProduct,
     getFilterCategory,
@@ -71,12 +74,16 @@ export const Products = () => {
         contentContainerStyle={ProductStyles.listContent}
         renderItem={({ item }) => <ProductCard item={item} />}
         ListFooterComponent={
-          (loading)
-            ? <ActivityIndicator color={colors.primary} style={ProductStyles.indicator} />
-            : undefined
+          loading ? (
+            <ActivityIndicator color={colors.primary} style={ProductStyles.indicator} />
+          ) : error && optionsProducts.products.length > 0 ? (
+            <RetryError message={error} onRetry={retry} />
+          ) : undefined
         }
         ListEmptyComponent={
-          loading ? undefined : (
+          loading ? undefined : error ? (
+            <RetryError message={error} onRetry={retry} />
+          ) : (
             <View style={ProductStyles.empty}>
               <View style={ProductStyles.emptyWrap}>
                 <Text style={ProductStyles.emptyTitle}>

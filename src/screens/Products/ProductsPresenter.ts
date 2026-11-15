@@ -24,23 +24,27 @@ import { isAbortError } from "../../shared/utils/generalFunction";
 
 export const ProductsPresenter = () => {
 
+  type FailedRequest = { mode: Mode; reset: boolean };
+  type Mode =
+  | { type: 'all' }
+  | { type: 'category'; category: Categories }
+  | { type: 'search'; text: string };
+
   const PAGE_SIZE = 10;
   const allCategory: Categories = { slug: 'all', name: 'Todas', url: '' };
   const emptyPage: Paginated = { skip: 0, total: 0, limit: 0, products: [] };
 
-  type Mode =
-    | { type: 'all' }
-    | { type: 'category'; category: Categories }
-    | { type: 'search'; text: string };
-
   const [loading, setLoading] = useState<boolean>(false);
+  const [error, setError] = useState<string | null>(null);
   const [filterProduct, setFilterProduct] = useState<string>("")
   const [optionsCategories, setOptionsCategories] = useState<Categories[]>([])
   const [activeCategory, setActiveCategory] = useState<Categories | undefined>(allCategory);
   const [optionsProducts, setoptionProducts] = useState<Paginated>(emptyPage)
 
+
   const modeRef = useRef<Mode>({ type: 'all' });
   const loadingRef = useRef<boolean>(false);
+  const failedRequestRef = useRef<FailedRequest | null>(null);
   const controllerRef = useRef<AbortController | null>(null);
 
   const productDebounce = useDebounce(filterProduct)
@@ -63,8 +67,8 @@ export const ProductsPresenter = () => {
     try {
       const resp = await getAllCategoryListService();
       setOptionsCategories([allCategory, ...resp]);
-    } catch (error) {
-      console.error(error)
+    } catch (categoryError) {
+      console.error(categoryError)
     }
   };
 
@@ -85,6 +89,8 @@ export const ProductsPresenter = () => {
     controllerRef.current = controller;
     loadingRef.current = true;
     setLoading(true);
+    setError(null);
+    failedRequestRef.current = null;
 
     try {
       const skip = reset ? 0 : products.length;
@@ -94,9 +100,10 @@ export const ProductsPresenter = () => {
       setoptionProducts(prev =>
         reset ? resp : { ...resp, products: [...prev.products, ...resp.products] }
       );
-    } catch (error) {
-      if (isAbortError(error)) return; // cancelación: se ignora
-      console.log('error:', error instanceof HttpError ? `${error.status} ${error.message}` : error);
+    } catch (requestError) {
+      if (isAbortError(requestError)) return; // cancelación: se ignora
+      failedRequestRef.current = { mode: modeRef.current, reset };
+      setError(requestError instanceof HttpError ? requestError.message : 'No se pudieron cargar los productos. Inténtalo de nuevo.');
     } finally {
       if (!controller.signal.aborted) {
         loadingRef.current = false;
@@ -126,6 +133,8 @@ export const ProductsPresenter = () => {
     controllerRef.current = controller;
     loadingRef.current = true;
     setLoading(true);
+    setError(null);
+    failedRequestRef.current = null;
 
     try {
       const skip = reset ? 0 : products.length;
@@ -135,9 +144,10 @@ export const ProductsPresenter = () => {
       setoptionProducts(prev =>
         reset ? resp : { ...resp, products: [...prev.products, ...resp.products] }
       );
-    } catch (error) {
-      if (isAbortError(error)) return;
-      console.log('error:', error instanceof HttpError ? `${error.status} ${error.message}` : error);
+    } catch (requestError) {
+      if (isAbortError(requestError)) return;
+      failedRequestRef.current = { mode: modeRef.current, reset };
+      setError(requestError instanceof HttpError ? requestError.message : 'No se pudieron cargar los productos. Inténtalo de nuevo.');
     } finally {
       if (!controller.signal.aborted) {
         loadingRef.current = false;
@@ -163,6 +173,8 @@ export const ProductsPresenter = () => {
     controllerRef.current = controller;
     loadingRef.current = true;
     setLoading(true);
+    setError(null);
+    failedRequestRef.current = null;
 
     try {
       const skip = reset ? 0 : products.length;
@@ -172,9 +184,10 @@ export const ProductsPresenter = () => {
       setoptionProducts(prev =>
         reset ? resp : { ...resp, products: [...prev.products, ...resp.products] }
       );
-    } catch (error) {
-      if (isAbortError(error)) return;
-      console.log('error:', error instanceof HttpError ? `${error.status} ${error.message}` : error);
+    } catch (requestError) {
+      if (isAbortError(requestError)) return;
+      failedRequestRef.current = { mode: modeRef.current, reset };
+      setError(requestError instanceof HttpError ? requestError.message : 'No se pudieron cargar los productos. Inténtalo de nuevo.');
     } finally {
       if (!controller.signal.aborted) {
         loadingRef.current = false;
@@ -190,8 +203,19 @@ export const ProductsPresenter = () => {
     else getProductList(false);
   }
 
+  function retry() {
+    const failedRequest = failedRequestRef.current;
+    if (!failedRequest) return;
+
+    const { mode, reset } = failedRequest;
+    if (mode.type === 'search') getSearchProduct(mode.text, reset);
+    else if (mode.type === 'category') getFilterCategory(mode.category, reset);
+    else getProductList(reset);
+  }
+
   return {
     // Variables
+    error,
     loading,
     filterProduct,
     activeCategory,
@@ -199,6 +223,7 @@ export const ProductsPresenter = () => {
     optionsCategories,
 
     // Actions
+    retry,
     loadMore,
     setFilterProduct,
     getFilterCategory,

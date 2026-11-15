@@ -63,6 +63,30 @@ export const ProductStyles = StyleSheet.create({
   indicator: {
     margin: 10
   },
+  error: {
+    alignItems: 'center',
+    gap: 12,
+    margin: 20,
+    padding: 24,
+    borderWidth: 1,
+    borderRadius: 16,
+    borderColor: colors.border,
+    backgroundColor: colors.card,
+  },
+  errorText: {
+    color: colors.text,
+    textAlign: 'center',
+  },
+  retryButton: {
+    paddingHorizontal: 20,
+    paddingVertical: 10,
+    borderRadius: 100,
+    backgroundColor: colors.primary,
+  },
+  retryButtonText: {
+    color: '#fff',
+    fontWeight: '600',
+  },
 
   // List Empty
   empty: {
