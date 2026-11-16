@@ -2,8 +2,10 @@
 import { Product } from '../../api/interface/Product';
 
 // Libraries
+import Animated from 'react-native-reanimated';
 import { Pressable, Text, View } from 'react-native';
 import FastImage from '@d11/react-native-fast-image';
+import { Ionicons } from '@react-native-vector-icons/ionicons';
 
 // Presenter
 import { ProductCardPresenter } from './ProductCardPresenter';
@@ -23,8 +25,10 @@ export const ProductCard = ({ item }: { item: Product }) => {
     hasDiscount,
     displayPrice,
     isFavoriteStore,
+    favoriteAnimatedStyle,
 
     // Actions
+    toggleFavorite,
     addProductStore,
     removeProductStore,
     handlePressDetails,
@@ -65,12 +69,17 @@ export const ProductCard = ({ item }: { item: Product }) => {
           style={ProductCardStyles.btnFavorites}
           onPress={(event) => {
             event.stopPropagation();
+            toggleFavorite();
             isFavoriteStore ? removeProductStore(item.id) : addProductStore(item);
           }}
         >
-          <Text style={[ProductCardStyles.iconFavorite, { color: isFavoriteStore ? colors.danger : colors.mutedLight }]}>
-            {'♥︎'}
-          </Text>
+          <Animated.View style={favoriteAnimatedStyle}>
+            <Ionicons
+              size={18}
+              name={'heart'}
+              color={isFavoriteStore ? colors.danger : colors.mutedLight}
+            />
+          </Animated.View>
         </Pressable>
       </View>
     </Pressable>

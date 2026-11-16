@@ -36,6 +36,12 @@ yarn android
 
 For iOS, remember to install CocoaPods dependencies (this only needs to be run on first clone or after updating native deps).
 
+Después de instalar o actualizar `@react-native-vector-icons/ionicons`, ejecuta este comando desde la raíz del proyecto para agregar los archivos de fuentes a `UIAppFonts` en el `Info.plist` de la aplicación iOS:
+
+```sh
+npx rnvi-update-plist package.json ios/productStoreTopaz/Info.plist
+```
+
 The first time you create a new project, run the Ruby bundler to install CocoaPods itself:
 
 ```sh

@@ -9,20 +9,21 @@ export const ProductStyles = StyleSheet.create({
 
   // Search
   searchBox: {
+    gap: 10,
+    height: 54,
+    marginTop: 16,
+    borderWidth: 1,
+    borderRadius: 18,
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 10,
     marginHorizontal: 20,
-    marginTop: 16,
     paddingHorizontal: 18,
-    height: 54,
-    borderRadius: 18,
-    borderWidth: 1,
     borderColor: colors.border,
     backgroundColor: colors.card,
   },
   searchInput: {
     flex: 1,
+    height: 54,
     fontSize: 16,
     color: colors.text,
   },

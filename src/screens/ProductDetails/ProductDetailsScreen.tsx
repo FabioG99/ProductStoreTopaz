@@ -4,6 +4,9 @@ import { ProductDetailsScreenProps } from '../Navigation/types';
 // Components
 import { ProductCarousel } from './components/ProductCarousel/ProductCarousel';
 
+// Libraries
+import Animated from 'react-native-reanimated';
+import { Ionicons } from '@react-native-vector-icons/ionicons';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Pressable, ScrollView, Text, View } from 'react-native'
 
@@ -26,8 +29,10 @@ export const ProductDetails = ({ route }: ProductDetailsScreenProps) => {
     displayPrice,
     productDetail,
     isFavoriteStore,
+    favoriteAnimatedStyle,
 
     // Actions
+    animateFavorite,
     addProductStore,
     removeProductStore
   } = ProductDetailsPresenter(route);
@@ -48,13 +53,18 @@ export const ProductDetails = ({ route }: ProductDetailsScreenProps) => {
             style={ProductDetailStyles.btnFavorites}
             onPress={() => {
               if (productDetail) {
+                animateFavorite();
                 isFavoriteStore ? removeProductStore(productDetail.id) : addProductStore(productDetail);
               }
             }}
           >
-            <Text style={[ProductDetailStyles.iconFavorite, { color: isFavoriteStore ? colors.danger : colors.mutedLight }]}>
-              {'♥︎'}
-            </Text>
+            <Animated.View style={favoriteAnimatedStyle}>
+              <Ionicons
+                size={22}
+                name={'heart'}
+                color={isFavoriteStore ? colors.danger : colors.mutedLight}
+              />
+            </Animated.View>
           </Pressable>
         </View>
         <View style={ProductDetailStyles.wrapInfo}>

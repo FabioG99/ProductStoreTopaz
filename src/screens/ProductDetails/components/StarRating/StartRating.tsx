@@ -1,8 +1,10 @@
 //Libraries
 import { View, Text, DimensionValue } from 'react-native';
+import { Ionicons } from '@react-native-vector-icons/ionicons';
 
 // Styles
 import { StartRatingStyle } from './StartRatingStyle';
+import { colors } from '../../../../shared/theme/colors';
 
 // Presenter
 import { StartRatingPresenter } from './StartRatingPresenter';
@@ -21,23 +23,23 @@ export const StarRating = ({ rating, showValue = true }: Props) => {
       <View>
         <View style={StartRatingStyle.starsRow}>
           {stars.map(i => (
-            <Text
+            <Ionicons
               key={i}
-              style={StartRatingStyle.empty}
-            >
-              {'★'}
-            </Text>
+              size={16}
+              name={'star'}
+              color={colors.mutedLight}
+            />
           ))}
         </View>
         <View style={[StartRatingStyle.fill, { width: fillWidth as DimensionValue }]}>
           <View style={StartRatingStyle.starsRow}>
             {stars.map(i => (
-              <Text
+              <Ionicons
                 key={i}
-                style={StartRatingStyle.filled}
-              >
-                {'★'}
-              </Text>
+                size={16}
+                name={'star'}
+                color={colors.star}
+              />
             ))}
           </View>
         </View>

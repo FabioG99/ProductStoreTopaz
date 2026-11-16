@@ -11,20 +11,12 @@ export const StartRatingStyle = StyleSheet.create({
     flexDirection: 'row',
     alignSelf: 'flex-start',
   },
-  empty: {
-    fontSize: 16,
-    color: colors.mutedLight,
-  },
-  filled: {
-    fontSize: 16,
-    color: colors.star,
-  },
   fill: {
-    position: 'absolute',
     top: 0,
     left: 0,
     bottom: 0,
     overflow: 'hidden',
+    position: 'absolute',
   },
   value: {
     fontSize: 14,

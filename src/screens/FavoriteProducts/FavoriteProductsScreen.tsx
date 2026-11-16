@@ -1,3 +1,6 @@
+// Components
+import { ProductCard } from '../../components/ProductCard/ProductCard';
+
 // Librarie
 import { FlatList, Pressable, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -6,15 +9,8 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { colors } from '../../shared/theme/colors';
 import { FavoriteDetailStyles } from './FavoriteProductStyle';
 
-// Store
-// import { useProductStore } from '../../store/ProductsStore';
-
 // Presenter
 import { FavoriteProductsPresenter } from './FavoriteProductsPresenter';
-
-// Utils
-// import { formatPrice, getDiscountedPrice, getDiscountValue } from '../../shared/utils/generalFunction';
-import { ProductCard } from '../../components/ProductCard/ProductCard';
 
 export const FavoriteProducts = () => {
   const {

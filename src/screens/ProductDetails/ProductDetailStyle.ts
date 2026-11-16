@@ -35,9 +35,6 @@ export const ProductDetailStyles = StyleSheet.create({
     borderColor: colors.border,
     backgroundColor: colors.placeholder
   },
-  iconFavorite: {
-    fontSize: 24
-  },
 
   // Info basic
   wrapInfo: {

@@ -81,8 +81,5 @@ export const ProductCardStyles = StyleSheet.create({
     justifyContent: 'center',
     borderColor: colors.border,
     backgroundColor: colors.placeholder,
-  },
-  iconFavorite: {
-    fontSize: 20,
-  },
+  }
 })

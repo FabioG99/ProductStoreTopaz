@@ -1,19 +1,32 @@
 // Libraries
 import React from 'react'
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { Text, View } from 'react-native';
+import { Ionicons } from '@react-native-vector-icons/ionicons';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 // Screens
 import { Products } from '../Products/ProductsScreen';
 import { ProductDetails } from '../ProductDetails/ProductDetailsScreen';
 import { FavoriteProducts } from '../FavoriteProducts/FavoriteProductsScreen';
 
+// Styles
+import { RootStackStyles } from './RootStackStyle';
+import { colors } from '../../shared/theme/colors';
+
+// Store
+import { useProductStore } from '../../store/ProductsStore';
+
 // Types
+import type { BottomTabNavigationOptions } from '@react-navigation/bottom-tabs';
 import type { ProductsStackParamList, RootStackParamList, RootTabParamList } from './types';
 
+type TabBarIconProps = Parameters<NonNullable<BottomTabNavigationOptions['tabBarIcon']>>[0];
+
+const Tab = createBottomTabNavigator<RootTabParamList>();
 const RootStackNavigator = createNativeStackNavigator<RootStackParamList>();
 const ProductsStackNavigator = createNativeStackNavigator<ProductsStackParamList>();
-const Tab = createBottomTabNavigator<RootTabParamList>();
+
 
 function ProductsStack() {
   return (
@@ -27,18 +40,65 @@ function ProductsStack() {
   );
 }
 
+function ProductsTabIcon({ focused, color, size }: TabBarIconProps) {
+  return (
+    <Ionicons
+      size={size}
+      color={color}
+      name={focused ? 'storefront' : 'storefront-outline'}
+    />
+  );
+}
+
+function FavoritesTabIcon({ focused, color, size }: TabBarIconProps) {
+  const favoritesCount = useProductStore((state) => state.products.length);
+
+  return (
+    <View>
+      <Ionicons
+        size={size}
+        color={color}
+        name={focused ? 'heart' : 'heart-outline'}
+      />
+      {favoritesCount > 0 && (
+        <View style={RootStackStyles.badge}>
+          <Text style={RootStackStyles.badgeText}>
+            {favoritesCount > 99 ? '99+' : favoritesCount}
+          </Text>
+        </View>
+      )}
+    </View>
+  );
+}
+
 function DashboardTabs() {
   return (
-    <Tab.Navigator>
+    <Tab.Navigator
+      screenOptions={{
+        tabBarStyle: RootStackStyles.tabBar,
+        tabBarActiveTintColor: colors.primary,
+        tabBarInactiveTintColor: colors.mutedLight,
+        tabBarItemStyle: RootStackStyles.tabBarItem,
+        tabBarLabelStyle: RootStackStyles.tabBarLabel,
+      }}
+    >
       <Tab.Screen
         name="Products"
         component={ProductsStack}
-        options={{ title: "Productos", headerShown: false }}
+        options={{
+          title: 'Productos',
+          headerShown: false,
+          tabBarIcon: ProductsTabIcon,
+        }}
       />
       <Tab.Screen
         name="Favorites"
         component={FavoriteProducts}
-        options={{ title: "Favoritos", headerShown: false }}
+        options={{
+          title: 'Favoritos',
+          headerShown: false,
+          tabBarIcon: FavoritesTabIcon,
+        }}
       />
     </Tab.Navigator>
   );
@@ -55,7 +115,7 @@ const RootStack = () => {
       <RootStackNavigator.Screen
         name="Details"
         component={ProductDetails}
-        options={{ title: 'Detalles del producto' , headerShown: false}}
+        options={{ title: 'Detalles del producto', headerShown: false }}
       />
     </RootStackNavigator.Navigator>
   );

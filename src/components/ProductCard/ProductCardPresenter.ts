@@ -1,5 +1,11 @@
 // Libraries
 import { NavigationProp, useNavigation } from "@react-navigation/native";
+import {
+  withSpring,
+  withSequence,
+  useSharedValue,
+  useAnimatedStyle,
+} from "react-native-reanimated";
 
 // Interface
 import { Product } from "../../api/interface/Product";
@@ -17,14 +23,27 @@ export const ProductCardPresenter = (item: Product) => {
 
   // Store - States
   const isFavoriteStore = useProductStore((state) => state.products.some((product) => product.id === item.id));
-
+  
   // Store - Actions
   const addProductStore = useProductStore((state) => state.addProductsFavorites);
   const removeProductStore = useProductStore((state) => state.removeProductsFavorites);
 
+  const favoriteScale = useSharedValue(1);
+
+  const favoriteAnimatedStyle = useAnimatedStyle(() => ({
+    transform: [{ scale: favoriteScale.value }],
+  }));
+
   const discount = getDiscountValue(item.discountPercentage);
   const hasDiscount = discount > 0;
   const displayPrice = hasDiscount ? getDiscountedPrice(item.price, discount) : item.price;
+
+  const toggleFavorite = () => {
+    favoriteScale.value = withSequence(
+      withSpring(1.35, { damping: 5 }),
+      withSpring(1),
+    );
+  };
 
   const handlePressDetails = (ProductId: number) => {
     navigate("Details", { ProductId });
@@ -36,8 +55,10 @@ export const ProductCardPresenter = (item: Product) => {
     hasDiscount,
     displayPrice,
     isFavoriteStore,
+    favoriteAnimatedStyle,
 
     // Actions
+    toggleFavorite,
     addProductStore,
     removeProductStore,
     handlePressDetails,
