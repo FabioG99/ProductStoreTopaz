@@ -11,8 +11,8 @@ import { ProductDetails } from '../ProductDetails/ProductDetailsScreen';
 import { FavoriteProducts } from '../FavoriteProducts/FavoriteProductsScreen';
 
 // Styles
-import { RootStackStyles } from './RootStackStyle';
-import { colors } from '../../shared/theme/colors';
+import { createRootStackStyles } from './RootStackStyle';
+import { useAppTheme } from '../../shared/theme/colors';
 
 // Store
 import { useProductStore } from '../../store/ProductsStore';
@@ -59,6 +59,9 @@ function ProductsTabIcon({ focused, color, size }: TabBarIconProps) {
 function FavoritesTabIcon({ focused, color, size }: TabBarIconProps) {
   const favoritesCount = useProductStore(state => state.products.length);
 
+  const { colors } = useAppTheme();
+  const RootStackStyles = createRootStackStyles(colors);
+
   return (
     <View>
       <Ionicons
@@ -78,6 +81,9 @@ function FavoritesTabIcon({ focused, color, size }: TabBarIconProps) {
 }
 
 function DashboardTabs() {
+  const { colors } = useAppTheme();
+  const RootStackStyles = createRootStackStyles(colors);
+
   return (
     <Tab.Navigator
       screenOptions={{

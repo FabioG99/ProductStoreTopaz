@@ -1,9 +1,14 @@
 import { Component, ErrorInfo, ReactNode } from 'react';
 import { Pressable, Text, View } from 'react-native';
-import { ErrorBoundaryStyles } from './ErrorBoundaryStyles';
+import { useAppTheme } from '../../shared/theme/colors';
+import { createErrorBoundaryStyles } from './ErrorBoundaryStyles';
 
 interface Props {
   children: ReactNode;
+}
+
+interface BoundaryProps extends Props {
+  styles: ReturnType<typeof createErrorBoundaryStyles>;
 }
 
 interface State {
@@ -11,7 +16,7 @@ interface State {
   resetKey: number;
 }
 
-export class ErrorBoundary extends Component<Props, State> {
+class ErrorBoundaryContent extends Component<BoundaryProps, State> {
   state: State = {
     hasError: false,
     resetKey: 0,
@@ -35,29 +40,38 @@ export class ErrorBoundary extends Component<Props, State> {
   render() {
     if (this.state.hasError) {
       return (
-        <View style={ErrorBoundaryStyles.container}>
-          <Text style={ErrorBoundaryStyles.title}>
+        <View style={this.props.styles.container}>
+          <Text style={this.props.styles.title}>
             Ocurrió un error inesperado
           </Text>
-          <Text style={ErrorBoundaryStyles.message}>
+          <Text style={this.props.styles.message}>
             No se pudo mostrar esta pantalla. Inténtalo de nuevo.
           </Text>
           <Pressable
             accessibilityRole="button"
             accessibilityLabel="Reintentar mostrar la aplicación"
             onPress={this.retry}
-            style={ErrorBoundaryStyles.button}
+            style={this.props.styles.button}
           >
-            <Text style={ErrorBoundaryStyles.buttonText}>Reintentar</Text>
+            <Text style={this.props.styles.buttonText}>Reintentar</Text>
           </Pressable>
         </View>
       );
     }
 
     return (
-      <View key={this.state.resetKey} style={ErrorBoundaryStyles.root}>
+      <View key={this.state.resetKey} style={this.props.styles.root}>
         {this.props.children}
       </View>
     );
   }
+}
+
+export function ErrorBoundary({ children }: Props) {
+  const { colors } = useAppTheme();
+  const styles = createErrorBoundaryStyles(colors);
+
+  return (
+    <ErrorBoundaryContent styles={styles}>{children}</ErrorBoundaryContent>
+  );
 }

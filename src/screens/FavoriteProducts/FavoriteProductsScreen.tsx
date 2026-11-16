@@ -6,13 +6,15 @@ import { FlatList, Pressable, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 // Styles
-import { colors } from '../../shared/theme/colors';
-import { FavoriteDetailStyles } from './FavoriteProductStyle';
+import { useAppTheme } from '../../shared/theme/colors';
+import { createFavoriteDetailStyles } from './FavoriteProductStyle';
 
 // Presenter
 import { FavoriteProductsPresenter } from './FavoriteProductsPresenter';
 
 export const FavoriteProducts = () => {
+  const { colors } = useAppTheme();
+  const FavoriteDetailStyles = createFavoriteDetailStyles(colors);
   const {
     // Variables
     productStore,

@@ -117,11 +117,15 @@ Las pantallas y sus presentadores crean un `AbortController` para cada solicitud
 
 Las imágenes remotas de las tarjetas y del carrusel usan `@d11/react-native-fast-image` (`8.13.0`) en lugar de `Image`. Se configura `cacheControl.immutable` porque las direcciones de las imágenes de productos son estables; la URI sirve como identificador de caché y evita descargas repetidas. En el carrusel se usa `contain` para mostrar la imagen completa.
 
-Las listas usan `FlatList` y claves basadas en el ID del producto. No se añadieron `React.memo`, `useCallback` ni `useMemo` de forma generalizada: los cálculos actuales por tarjeta son pequeños, y las listas se renderizan de manera virtualizada y solicitan páginas de diez productos. No se ha medido un cuello de botella que justifique esas optimizaciones; antes de incorporarlas, conviene medir el rendimiento y optimizar solo los componentes o cálculos que resulten costosos. Así se evita añadir complejidad sin una mejora comprobada.
+Las listas usan `FlatList` y claves basadas en el ID del producto. No se usan `React.memo`, `useMemo` ni `useCallback`: las tarjetas no reciben callbacks memoizados, los cálculos y estilos son pequeños, y las listas están virtualizadas y solicitan páginas de diez productos. No se ha medido un cuello de botella que justifique añadir estas optimizaciones; cualquier optimización adicional debe responder a mediciones de rendimiento. Los estilos se generan con la paleta activa para que también se actualicen al cambiar entre tema claro y oscuro.
 
 ### Navegación
 
 La navegación usa una pila raíz con las pestañas Productos y Favoritos, además de la pantalla de detalle. Productos conserva una pila interna para su lista. El detalle se presenta sobre las pestañas; al abrirlo desde Productos o Favoritos, la acción Atrás regresa a la pestaña que estaba activa. Los tipos `RootTabParamList` y `ProductsStackParamList` describen las rutas anidadas; `RootStackParamList` tipa el detalle y su parámetro `ProductId`.
+
+### Tema claro y oscuro
+
+La aplicación detecta el tema del dispositivo con `useColorScheme()` y adapta la paleta de colores al modo claro u oscuro. El tema se aplica a las pantallas, tarjetas, estados de carga y error, barra de pestañas, navegación y `StatusBar`; cambia automáticamente cuando el usuario modifica la apariencia del sistema.
 
 # Solución de problemas
 

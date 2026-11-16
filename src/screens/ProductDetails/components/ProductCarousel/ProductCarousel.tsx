@@ -3,7 +3,8 @@ import { View, FlatList } from 'react-native';
 import FastImage from '@d11/react-native-fast-image';
 
 // Styles
-import { ProductCarouselStyle } from './ProductCarouselStyle';
+import { useAppTheme } from '../../../../shared/theme/colors';
+import { createProductCarouselStyles } from './ProductCarouselStyle';
 
 // Presenter
 import { ProductCarouselPresenter } from './ProductCarouselPresenter';
@@ -13,6 +14,8 @@ interface Props {
 }
 
 export const ProductCarousel = ({ images }: Props) => {
+  const { colors } = useAppTheme();
+  const ProductCarouselStyle = createProductCarouselStyles(colors);
   const {
     // Variables
     size,

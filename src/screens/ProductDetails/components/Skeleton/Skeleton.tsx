@@ -2,9 +2,13 @@
 import { View } from 'react-native';
 
 // Styles
-import { SkeletonStyle } from './SkeletonStyles';
+import { useAppTheme } from '../../../../shared/theme/colors';
+import { createSkeletonStyles } from './SkeletonStyles';
 
 export const Skeleton = () => {
+  const { colors } = useAppTheme();
+  const SkeletonStyle = createSkeletonStyles(colors);
+
   return (
     <View style={SkeletonStyle.skeletonContent}>
       <View style={SkeletonStyle.skeletonImage} />

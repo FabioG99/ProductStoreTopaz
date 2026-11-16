@@ -3,8 +3,8 @@ import { View, Text, DimensionValue } from 'react-native';
 import { Ionicons } from '@react-native-vector-icons/ionicons';
 
 // Styles
-import { StartRatingStyle } from './StartRatingStyle';
-import { colors } from '../../../../shared/theme/colors';
+import { createStartRatingStyles } from './StartRatingStyle';
+import { useAppTheme } from '../../../../shared/theme/colors';
 
 // Presenter
 import { StartRatingPresenter } from './StartRatingPresenter';
@@ -15,6 +15,9 @@ interface Props {
 }
 
 export const StarRating = ({ rating, showValue = true }: Props) => {
+  const { colors } = useAppTheme();
+  const StartRatingStyle = createStartRatingStyles(colors);
+
   const { stars, fillWidth, label } = StartRatingPresenter(rating);
 
   return (

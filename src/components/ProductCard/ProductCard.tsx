@@ -11,13 +11,16 @@ import { Ionicons } from '@react-native-vector-icons/ionicons';
 import { ProductCardPresenter } from './ProductCardPresenter';
 
 // Styles
-import { colors } from '../../shared/theme/colors';
-import { ProductCardStyles } from './ProductCardStyle';
+import { useAppTheme } from '../../shared/theme/colors';
+import { createProductCardStyles } from './ProductCardStyle';
 
 // Utils
 import { formatPrice } from '../../shared/utils/generalFunction';
 
 export const ProductCard = ({ item }: { item: Product }) => {
+  const { colors } = useAppTheme();
+  const ProductCardStyles = createProductCardStyles(colors);
+
   const {
     // Variables
     discount,

@@ -22,10 +22,12 @@ import {
 import { ProductsPresenter } from './ProductsPresenter';
 
 // Styles
-import { ProductStyles } from './ProductsStyle';
-import { colors } from '../../shared/theme/colors';
+import { createProductStyles } from './ProductsStyle';
+import { useAppTheme } from '../../shared/theme/colors';
 
 export const Products = () => {
+  const { colors } = useAppTheme();
+  const ProductStyles = createProductStyles(colors);
   const {
     // Variables
     error,

@@ -13,8 +13,8 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { Pressable, ScrollView, Text, View } from 'react-native';
 
 // Styles
-import { colors } from '../../shared/theme/colors';
-import { ProductDetailStyles } from './ProductDetailStyle';
+import { useAppTheme } from '../../shared/theme/colors';
+import { createProductDetailStyles } from './ProductDetailStyle';
 
 // Presenter
 import { ProductDetailsPresenter } from './ProductDetailsPresenter';
@@ -24,6 +24,9 @@ import { formatPrice } from '../../shared/utils/generalFunction';
 import { StarRating } from './components/StarRating/StartRating';
 
 export const ProductDetails = ({ route }: ProductDetailsScreenProps) => {
+  const { colors } = useAppTheme();
+  const ProductDetailStyles = createProductDetailStyles(colors);
+
   const {
     //Variables
     loading,
