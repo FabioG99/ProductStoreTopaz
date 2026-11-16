@@ -1,204 +1,138 @@
-This is a new [**React Native**](https://reactnative.dev) project, bootstrapped using [`@react-native-community/cli`](https://github.com/react-native-community/cli).
+# Product Store Topaz
 
-# Getting Started
+Aplicación móvil creada con [**React Native**](https://reactnative.dev) y [`@react-native-community/cli`](https://github.com/react-native-community/cli).
 
-> **Note**: Make sure you have completed the [Set Up Your Environment](https://reactnative.dev/docs/set-up-your-environment) guide before proceeding.
+## Inicio rápido
 
-## Step 1: Start Metro
+Antes de comenzar, instala las herramientas necesarias siguiendo la guía de [configuración del entorno de React Native](https://reactnative.dev/docs/set-up-your-environment). Este proyecto requiere Node.js 20 o posterior. Para compilar iOS también necesitas macOS, Xcode y CocoaPods.
 
-First, you will need to run **Metro**, the JavaScript build tool for React Native.
+### 1. Instalar dependencias del proyecto
 
-To start the Metro dev server, run the following command from the root of your React Native project:
-
-```sh
-# Using npm
-npm start
-
-# OR using Yarn
-yarn start
-```
-
-## Step 2: Build and run your app
-
-With Metro running, open a new terminal window/pane from the root of your React Native project, and use one of the following commands to build and run your Android or iOS app:
-
-### Android
+Desde la raíz del repositorio, instala las dependencias de JavaScript:
 
 ```sh
-# Using npm
-npm run android
-
-# OR using Yarn
-yarn android
+yarn install
 ```
 
-### iOS
-
-For iOS, remember to install CocoaPods dependencies (this only needs to be run on first clone or after updating native deps).
-
-Después de instalar o actualizar `@react-native-vector-icons/ionicons`, ejecuta este comando desde la raíz del proyecto para agregar los archivos de fuentes a `UIAppFonts` en el `Info.plist` de la aplicación iOS:
+Si todavía no tienes un archivo `.env`, créalo con la plantilla:
 
 ```sh
-npx rnvi-update-plist package.json ios/productStoreTopaz/Info.plist
+cp .env.example .env
 ```
 
-The first time you create a new project, run the Ruby bundler to install CocoaPods itself:
+No ejecutes este segundo comando si ya tienes un `.env`, para evitar sobrescribirlo. La plantilla configura `API_BASE_URL` para DummyJSON; si necesitas otra URL, edita `.env`.
+
+### 2. Preparar iOS (solo para ejecutar en iOS)
+
+Desde la raíz del proyecto, instala las dependencias de Ruby definidas por el repositorio:
 
 ```sh
 bundle install
 ```
 
-Then, and every time you update your native dependencies, run:
+Después instala los Pods de iOS:
 
 ```sh
+cd ios
 bundle exec pod install
+cd ..
 ```
 
-For more information, please visit [CocoaPods Getting Started guide](https://guides.cocoapods.org/using/getting-started.html).
+Ejecuta `bundle install` la primera vez que configures el proyecto y cuando cambie el `Gemfile`. Ejecuta `bundle exec pod install` la primera vez y después de cambios en las dependencias nativas de iOS. Para más información, consulta la [guía de CocoaPods](https://guides.cocoapods.org/using/getting-started.html).
+
+Si instalas o actualizas `@react-native-vector-icons/ionicons`, actualiza también la lista de fuentes de iOS en `Info.plist`:
 
 ```sh
-# Using npm
-npm run ios
-
-# OR using Yarn
-yarn ios
+npx rnvi-update-plist package.json ios/productStoreTopaz/Info.plist
 ```
 
-If everything is set up correctly, you should see your new app running in the Android Emulator, iOS Simulator, or your connected device.
+### 3. Compilar y ejecutar en el dispositivo o emulador
 
-This is one way to run your app — you can also build it directly from Android Studio or Xcode.
+Desde la raíz del proyecto, ejecuta **una** de estas opciones según la plataforma. El comando inicia Metro automáticamente si aún no está en ejecución; no hace falta ejecutar `yarn start` en otra terminal.
 
-## Step 3: Modify your app
-
-Now that you have successfully run the app, let's make changes!
-
-Open `App.tsx` in your text editor of choice and make some changes. When you save, your app will automatically update and reflect these changes — this is powered by [Fast Refresh](https://reactnative.dev/docs/fast-refresh).
-
-When you want to forcefully reload, for example to reset the state of your app, you can perform a full reload:
-
-- **Android**: Press the <kbd>R</kbd> key twice or select **"Reload"** from the **Dev Menu**, accessed via <kbd>Ctrl</kbd> + <kbd>M</kbd> (Windows/Linux) or <kbd>Cmd ⌘</kbd> + <kbd>M</kbd> (macOS).
-- **iOS**: Press <kbd>R</kbd> in iOS Simulator.
-
-## Congratulations! :tada:
-
-You've successfully run and modified your React Native App. :partying_face:
-
-### Now what?
-
-- If you want to add this new React Native code to an existing application, check out the [Integration guide](https://reactnative.dev/docs/integration-with-existing-apps).
-- If you're curious to learn more about React Native, check out the [docs](https://reactnative.dev/docs/getting-started).
-
-## Decisiones técnicas
-
-### Estado global de favoritos
-
-Para manejar el estado global de favoritos se eligió `zustand` por su simplicidad, bajo costo de configuración y porque evita el prop drilling entre pantalla de productos, detalle y favoritos. El store centraliza la lista de productos favoritos y expone acciones para agregarlos y quitarlos desde cualquier punto de la app.
-
-La implementación usa `immer` como middleware de Zustand para mantener los updates del estado más legibles y seguros desde el punto de vista de la inmutabilidad. Esto permite escribir cambios en el array de favoritos con una sintaxis más directa y predecible, sin mutar el estado original de forma manual.
-
-Ejemplo conceptual del patrón usado:
-
-```ts
-import { create } from 'zustand';
-import { devtools, immer } from 'zustand/middleware';
-
-type Product = {
-  id: number;
-  title: string;
-  price: number;
-};
-
-type ProductState = {
-  products: Product[];
-};
-
-export const useProductStore = create<ProductState>()(
-  devtools(
-    immer((set) => ({
-      products: [],
-      addProductsFavorites: (product: Product) =>
-        set((state) => {
-          state.products.push(product);
-        }),
-      removeProductsFavorites: (id: number) =>
-        set((state) => {
-          state.products = state.products.filter((p) => p.id !== id);
-        }),
-    })),
-  ),
-);
-```
-
-Esta solución es adecuada para una app de este tamaño porque centraliza el estado y mantiene la UI reactiva sin depender de un store más pesado o de una configuración compleja como Redux Toolkit.
-
-### Imágenes y rendimiento de listas
-
-Las imágenes remotas de las tarjetas de producto y del carrusel de detalle usan `@d11/react-native-fast-image` (`8.13.0`) en lugar de `Image`. Se configura `cacheControl.immutable` porque las URLs públicas de imágenes de producto son estables; la caché usa la URI como identificador y evita volver a descargar recursos ya almacenados. En el carrusel se conserva `contain` para mostrar las imágenes completas.
-
-### Networking
-
-La capa de red usa `fetch` y se concentra en `src/api/http.ts` y `src/api/services.ts`, evitando llamadas directas desde las pantallas. La URL base se lee desde `API_BASE_URL` mediante `react-native-config` y se centraliza en `src/shared/utils/constants.ts` (`BASE_URL`), para poder cambiar el host por entorno sin modificar los servicios individuales. `buildUrl()` agrega los parámetros de consulta.
-
-Para configurar el entorno local, copia `.env.example` a `.env`. Para usar otro servidor, cambia `API_BASE_URL` en el archivo de entorno correspondiente. Los archivos `.env` locales están excluidos de Git; `.env.example` documenta las variables requeridas. Estas variables se empaquetan en la aplicación, así que no deben contener secretos.
-
-`react-native-config` se instala con Yarn y se autolinkea. En iOS, instala los Pods y reconstruye la app:
-
-```sh
-cd ios && bundle exec pod install && cd ..
-yarn ios
-```
-
-En Android, aplica el paso adicional de la librería en `android/app/build.gradle`:
-
-```gradle
-apply from: project(':react-native-config').projectDir.getPath() + "/dotenv.gradle"
-```
-
-Después reconstruye la app:
+**Android:**
 
 ```sh
 yarn android
 ```
 
-Para seleccionar otro archivo de entorno, por ejemplo `.env.production`, ejecuta `ENVFILE=.env.production yarn ios` o `ENVFILE=.env.production yarn android`.
+**iOS:** (después de completar el paso 2)
 
-El cliente HTTP centralizado aplica los headers comunes y convierte respuestas HTTP no exitosas en `HttpError`. También informa explícitamente de fallos de conexión, respuestas JSON inválidas y timeout (15 segundos). Las cancelaciones iniciadas por desmontaje o cambio de filtro se propagan sin mostrarse como errores al usuario.
+```sh
+yarn ios
+```
 
-Las pantallas/presenters crean un `AbortController` por ciclo de vida de solicitud y cancelan las solicitudes pendientes al desmontarse. La lista, la carga de categorías y el detalle muestran errores recuperables con una opción para reintentar. Un Error Boundary global en `src/App.tsx` ofrece una pantalla de recuperación ante errores de renderizado no controlados. No se usa un cliente adicional como Axios porque `fetch` nativo cubre las necesidades actuales y el wrapper centralizado aporta la configuración y el manejo de errores comunes.
+La aplicación se abrirá en el emulador o simulador disponible, o en un dispositivo conectado. También puedes compilarla desde Android Studio o Xcode.
 
-### Persistencia local
+### 4. Modificar la aplicación
 
-Los favoritos se persisten localmente con `@react-native-async-storage/async-storage` (`2.2.0`) integrado al store global mediante el middleware `persist` de Zustand. Se eligió AsyncStorage porque la app solo necesita guardar una lista pequeña de productos en JSON; su API asíncrona y el autolinking de React Native cubren este caso sin añadir una solución de almacenamiento más compleja. No se envían favoritos a ningún backend o servicio cloud.
+Abre `App.tsx` en tu editor y realiza un cambio. Al guardar, la aplicación se actualizará automáticamente mediante [Fast Refresh](https://reactnative.dev/docs/fast-refresh).
 
-La clave persistida es `productStore-favorites`. La opción `partialize` limita el contenido guardado a `products` (la lista de favoritos), y `createJSONStorage` serializa e hidrata ese estado al iniciar la app. La hidratación es asíncrona: la interfaz no debe asumir que el store ya terminó de restaurarse en el primer render. Para verificar la persistencia manualmente, agrega un favorito, cierra y vuelve a abrir la app y confirma que sigue en Favoritos; después elimínalo y comprueba que no reaparece.
+Para recargar la aplicación por completo, por ejemplo, para restablecer su estado:
+
+- **Android:** pulsa <kbd>R</kbd> dos veces o selecciona **Reload** en el menú de desarrollo. En macOS, abre ese menú con <kbd>Cmd ⌘</kbd> + <kbd>M</kbd>; en Windows/Linux, con <kbd>Ctrl</kbd> + <kbd>M</kbd>.
+- **iOS:** pulsa <kbd>R</kbd> en el simulador de iOS.
+
+Para integrar este código en una aplicación existente, consulta la [guía de integración](https://reactnative.dev/docs/integration-with-existing-apps). Para aprender más sobre React Native, visita la [documentación oficial](https://reactnative.dev/docs/getting-started).
+
+## Decisiones técnicas
 
 ### Arquitectura
 
-La solución adopta una organización por capas con separación de responsabilidades:
+La app separa responsabilidades por capas: `api/` contiene el cliente HTTP, los servicios y los contratos; `screens/` compone las pantallas y sus presentadores; `components/` contiene la interfaz reutilizable; `hooks/` contiene lógica reutilizable como el debounce; `store/` mantiene los favoritos globales; y `shared/` contiene utilidades y configuración común.
 
-- `api/`: clientes HTTP y contratos de respuesta
-- `store/`: estado global reactivo
-- `screens/`: pantallas y composición visual
-- `components/`: UI reutilizable
-- `hooks/`: lógica reutilizable como debounce
-- `shared/`: utilidades y constantes compartidas
+Los componentes de pantalla no llaman directamente a `fetch`: delegan la coordinación del estado y las solicitudes a sus presentadores, que usan los servicios de `api/`. Así, la interfaz se enfoca en mostrar el estado y gestionar interacciones. No se agregó una capa `domain/` porque sería innecesaria para el alcance actual.
 
-Esto ayuda a mantener el flujo de la app más predecible y facilita la prueba unitaria sin mezclar lógica de negocio con render.
+### Estado global de favoritos
+
+Para manejar el estado global de favoritos se eligió `zustand` por su simplicidad, su baja carga de configuración y porque evita pasar propiedades de forma encadenada entre las pantallas de Productos, Detalle y Favoritos. El almacén centraliza la lista y expone acciones para agregar o quitar productos desde cualquier pantalla.
+
+Se usa `immer` como middleware para que las actualizaciones inmutables de la colección sean legibles, y `devtools` para facilitar la inspección durante el desarrollo. Esta solución se ajusta al tamaño y las necesidades actuales de la app: mantiene el estado reactivo con poca configuración y evita incorporar una solución más compleja, como Redux Toolkit.
+
+### Persistencia local
+
+Los favoritos se guardan localmente con `@react-native-async-storage/async-storage` (`2.2.0`), integrado al almacén mediante el middleware `persist` de Zustand. Se eligió AsyncStorage porque se almacena una lista pequeña de productos serializable como JSON. No se necesita acceso síncrono ni una base de datos relacional, así que MMKV agregaría complejidad innecesaria para este alcance. Los favoritos no se envían a ningún servidor ni servicio en la nube.
+
+La clave persistida es `productStore-favorites`. `partialize` limita el contenido guardado a `products`, y `createJSONStorage` serializa y restaura ese estado al iniciar. La restauración es asíncrona, por lo que la interfaz no debe asumir que terminó en el primer render. Para verificar la persistencia manualmente, agrega un favorito, cierra y vuelve a abrir la app y confirma que siga en Favoritos; luego elimínalo y verifica que no reaparezca.
+
+### Comunicación con la API
+
+La comunicación con la API usa `fetch` y está centralizada en `src/api/http.ts` y `src/api/services.ts`; las pantallas no hacen solicitudes directamente. La URL base se lee desde `API_BASE_URL` mediante `react-native-config` y se define en `src/shared/utils/constants.ts` (`BASE_URL`). Así se puede cambiar el servidor por entorno sin modificar cada servicio. `buildUrl()` agrega los parámetros de consulta.
+
+Para configurar el entorno local, copia `.env.example` a `.env`. Para usar otro servidor, cambia `API_BASE_URL` en el archivo de entorno correspondiente. Los archivos `.env` locales están excluidos de Git; `.env.example` documenta las variables necesarias. Estas variables se incluyen en la aplicación, por lo que no deben contener secretos.
+
+`react-native-config` se instala con Yarn y se enlaza automáticamente. En Android, el proyecto aplica la configuración de la librería en `android/app/build.gradle`:
+
+```gradle
+apply from: project(':react-native-config').projectDir.getPath() + "/dotenv.gradle"
+```
+
+Los pasos para instalar los Pods de iOS y ejecutar la app están descritos en **Inicio rápido**. Para seleccionar otro archivo de entorno, por ejemplo `.env.production`, antepone `ENVFILE=.env.production` al comando de ejecución de la plataforma indicado en el paso 3.
+
+El cliente HTTP centralizado aplica encabezados comunes y convierte las respuestas HTTP fallidas en `HttpError`. También informa explícitamente de problemas de conexión, respuestas JSON inválidas y tiempos de espera agotados (15 segundos). Las cancelaciones por desmontaje o cambio de filtro se propagan sin mostrarse como errores al usuario.
+
+Las pantallas y sus presentadores crean un `AbortController` para cada solicitud y cancelan las solicitudes pendientes al desmontarse. La lista, la carga de categorías y el detalle muestran errores recuperables y permiten reintentar. Un límite global de errores en `src/App.tsx` ofrece una pantalla de recuperación ante errores de renderizado no controlados. No se usa Axios porque `fetch`, integrado en React Native, cubre las necesidades actuales; el cliente centralizado añade configuración, cancelación y manejo común de errores sin sumar otra dependencia.
+
+### Rendimiento y caché de imágenes
+
+Las imágenes remotas de las tarjetas y del carrusel usan `@d11/react-native-fast-image` (`8.13.0`) en lugar de `Image`. Se configura `cacheControl.immutable` porque las direcciones de las imágenes de productos son estables; la URI sirve como identificador de caché y evita descargas repetidas. En el carrusel se usa `contain` para mostrar la imagen completa.
+
+Las listas usan `FlatList` y claves basadas en el ID del producto. No se añadieron `React.memo`, `useCallback` ni `useMemo` de forma generalizada: los cálculos actuales por tarjeta son pequeños, y las listas se renderizan de manera virtualizada y solicitan páginas de diez productos. No se ha medido un cuello de botella que justifique esas optimizaciones; antes de incorporarlas, conviene medir el rendimiento y optimizar solo los componentes o cálculos que resulten costosos. Así se evita añadir complejidad sin una mejora comprobada.
 
 ### Navegación
 
-La navegación usa un stack raíz con el dashboard de tabs (Productos y Favoritos) y la pantalla de detalle. Productos conserva un stack interno para su lista. Detalle se presenta encima del dashboard, por lo que al abrirlo desde Productos o Favoritos, la acción Atrás regresa a la pestaña que estaba activa. Los tipos `RootTabParamList` y `ProductsStackParamList` describen las rutas anidadas; `RootStackParamList` tipa el detalle y su parámetro `ProductId`.
+La navegación usa una pila raíz con las pestañas Productos y Favoritos, además de la pantalla de detalle. Productos conserva una pila interna para su lista. El detalle se presenta sobre las pestañas; al abrirlo desde Productos o Favoritos, la acción Atrás regresa a la pestaña que estaba activa. Los tipos `RootTabParamList` y `ProductsStackParamList` describen las rutas anidadas; `RootStackParamList` tipa el detalle y su parámetro `ProductId`.
 
-# Troubleshooting
+# Solución de problemas
 
-If you're having issues getting the above steps to work, see the [Troubleshooting](https://reactnative.dev/docs/troubleshooting) page.
+Si tienes problemas al seguir estos pasos, consulta la [guía de solución de problemas](https://reactnative.dev/docs/troubleshooting).
 
-# Learn More
+# Más información
 
-To learn more about React Native, take a look at the following resources:
+Para aprender más sobre React Native, consulta estos recursos:
 
-- [React Native Website](https://reactnative.dev) - learn more about React Native.
-- [Getting Started](https://reactnative.dev/docs/environment-setup) - an **overview** of React Native and how setup your environment.
-- [Learn the Basics](https://reactnative.dev/docs/getting-started) - a **guided tour** of the React Native **basics**.
-- [Blog](https://reactnative.dev/blog) - read the latest official React Native **Blog** posts.
-- [`@facebook/react-native`](https://github.com/facebook/react-native) - the Open Source; GitHub **repository** for React Native.
+- [Sitio oficial de React Native](https://reactnative.dev).
+- [Configuración del entorno](https://reactnative.dev/docs/environment-setup).
+- [Conceptos básicos de React Native](https://reactnative.dev/docs/getting-started).
+- [Blog oficial de React Native](https://reactnative.dev/blog).
+- [Repositorio de React Native en GitHub](https://github.com/facebook/react-native).
