@@ -4,7 +4,15 @@ Aplicación móvil creada con [**React Native**](https://reactnative.dev) y [`@r
 
 ## Inicio rápido
 
-Antes de comenzar, instala las herramientas necesarias siguiendo la guía de [configuración del entorno de React Native](https://reactnative.dev/docs/set-up-your-environment). Este proyecto requiere Node.js 20 o posterior. Para compilar iOS también necesitas macOS, Xcode y CocoaPods.
+Antes de comenzar, instala las herramientas necesarias siguiendo la guía de [configuración del entorno de React Native](https://reactnative.dev/docs/set-up-your-environment). Las versiones utilizadas por este proyecto son:
+
+- **Node.js:** 20 o posterior.
+- **React Native:** 0.81.1.
+- **React Native Community CLI:** 21.0.0 (instalada como dependencia del proyecto).
+- **Ruby:** 2.6.10, según `Gemfile.lock`.
+- **CocoaPods:** 1.15.2, instalado mediante Bundler según `Gemfile.lock`.
+
+Para compilar iOS necesitas macOS y Xcode. Usa `bundle exec pod` para ejecutar la versión de CocoaPods fijada para el proyecto, en lugar de depender de una instalación global.
 
 ### 1. Instalar dependencias del proyecto
 
@@ -75,6 +83,32 @@ Para recargar la aplicación por completo, por ejemplo, para restablecer su esta
 
 Para integrar este código en una aplicación existente, consulta la [guía de integración](https://reactnative.dev/docs/integration-with-existing-apps). Para aprender más sobre React Native, visita la [documentación oficial](https://reactnative.dev/docs/getting-started).
 
+## Ejecutar las pruebas
+
+Desde la raíz del proyecto, ejecuta todas las pruebas con:
+
+```sh
+yarn test
+```
+
+Para ejecutarlas en serie, por ejemplo si quieres una salida más fácil de diagnosticar:
+
+```sh
+yarn test --runInBand
+```
+
+También puedes ejecutar una suite individual indicando parte del nombre del archivo:
+
+```sh
+yarn test useDebounce
+yarn test ProductCard
+yarn test ProductsStore
+yarn test ProductsPresenter
+yarn test generalFunction
+```
+
+Estos comandos corresponden a `__tests__/useDebounce.test.tsx`, `__tests__/ProductCard.test.tsx`, `__tests__/ProductsStore.test.ts`, `__tests__/ProductsPresenter.test.tsx` y `__tests__/generalFunction.test.ts`, respectivamente.
+
 ## Decisiones técnicas
 
 ### Arquitectura
@@ -140,3 +174,26 @@ Para aprender más sobre React Native, consulta estos recursos:
 - [Conceptos básicos de React Native](https://reactnative.dev/docs/getting-started).
 - [Blog oficial de React Native](https://reactnative.dev/blog).
 - [Repositorio de React Native en GitHub](https://github.com/facebook/react-native).
+
+## Capturas de pantalla
+
+### Skeleton
+![Carga de productos con skeleton](./docs/screenshots/skeleton.png)
+
+### Lista de productos
+![Lista de productos](./docs/screenshots/products-list.png)
+
+### Filtro por categoría
+![Categorías disponibles](./docs/screenshots/filter-category.png)
+
+### Productos filtrados
+![Productos filtrados](./docs/screenshots/filter-products.png)
+
+### Productos favoritos
+![Lista de productos favoritos](./docs/screenshots/favorite-producst.png)
+
+### Detalle del producto
+![Detalle del producto](./docs/screenshots/details-product.png)
+
+### Tema claro
+![Aplicación con tema claro](./docs/screenshots/light-theme.png)

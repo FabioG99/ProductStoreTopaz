@@ -1,17 +1,25 @@
+// Libraries
+import { StatusBar } from 'react-native';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
 import {
   DarkTheme,
   DefaultTheme,
   NavigationContainer,
 } from '@react-navigation/native';
-import { StatusBar } from 'react-native';
-import { SafeAreaProvider } from 'react-native-safe-area-context';
-import RootStack from './screens/Navigation/RootStack';
-import { ErrorBoundary } from './components/ErrorBoundary/ErrorBoundary';
+
+// Shared - Theme
 import { useAppTheme } from './shared/theme/colors';
+
+// Stack Navigation
+import RootStack from './screens/Navigation/RootStack';
+
+// Error
+import { ErrorBoundary } from './components/ErrorBoundary/ErrorBoundary';
 
 function App() {
   const { colors, isDark } = useAppTheme();
   const baseTheme = isDark ? DarkTheme : DefaultTheme;
+
   const navigationTheme = {
     ...baseTheme,
     colors: {
