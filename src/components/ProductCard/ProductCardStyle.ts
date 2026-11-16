@@ -1,5 +1,5 @@
-import { StyleSheet } from "react-native";
-import { colors } from "../../shared/theme/colors";
+import { StyleSheet } from 'react-native';
+import { colors } from '../../shared/theme/colors';
 
 export const ProductCardStyles = StyleSheet.create({
   card: {
@@ -81,5 +81,5 @@ export const ProductCardStyles = StyleSheet.create({
     justifyContent: 'center',
     borderColor: colors.border,
     backgroundColor: colors.placeholder,
-  }
-})
+  },
+});

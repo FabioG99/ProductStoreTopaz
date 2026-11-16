@@ -1,5 +1,5 @@
 // Libraries
-import React from 'react'
+import React from 'react';
 import { Text, View } from 'react-native';
 import { Ionicons } from '@react-native-vector-icons/ionicons';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
@@ -19,14 +19,20 @@ import { useProductStore } from '../../store/ProductsStore';
 
 // Types
 import type { BottomTabNavigationOptions } from '@react-navigation/bottom-tabs';
-import type { ProductsStackParamList, RootStackParamList, RootTabParamList } from './types';
+import type {
+  ProductsStackParamList,
+  RootStackParamList,
+  RootTabParamList,
+} from './types';
 
-type TabBarIconProps = Parameters<NonNullable<BottomTabNavigationOptions['tabBarIcon']>>[0];
+type TabBarIconProps = Parameters<
+  NonNullable<BottomTabNavigationOptions['tabBarIcon']>
+>[0];
 
 const Tab = createBottomTabNavigator<RootTabParamList>();
 const RootStackNavigator = createNativeStackNavigator<RootStackParamList>();
-const ProductsStackNavigator = createNativeStackNavigator<ProductsStackParamList>();
-
+const ProductsStackNavigator =
+  createNativeStackNavigator<ProductsStackParamList>();
 
 function ProductsStack() {
   return (
@@ -51,7 +57,7 @@ function ProductsTabIcon({ focused, color, size }: TabBarIconProps) {
 }
 
 function FavoritesTabIcon({ focused, color, size }: TabBarIconProps) {
-  const favoritesCount = useProductStore((state) => state.products.length);
+  const favoritesCount = useProductStore(state => state.products.length);
 
   return (
     <View>
@@ -106,7 +112,7 @@ function DashboardTabs() {
 
 const RootStack = () => {
   return (
-    <RootStackNavigator.Navigator initialRouteName='Dashboard'>
+    <RootStackNavigator.Navigator initialRouteName="Dashboard">
       <RootStackNavigator.Screen
         name="Dashboard"
         component={DashboardTabs}
@@ -119,6 +125,6 @@ const RootStack = () => {
       />
     </RootStackNavigator.Navigator>
   );
-}
+};
 
 export default RootStack;

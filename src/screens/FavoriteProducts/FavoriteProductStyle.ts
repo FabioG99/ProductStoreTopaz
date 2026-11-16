@@ -4,7 +4,7 @@ import { colors } from '../../shared/theme/colors';
 export const FavoriteDetailStyles = StyleSheet.create({
   safe: {
     flex: 1,
-    backgroundColor: colors.card
+    backgroundColor: colors.card,
   },
   header: {
     gap: 10,
@@ -22,27 +22,27 @@ export const FavoriteDetailStyles = StyleSheet.create({
     borderRadius: 32,
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: colors.danger
+    backgroundColor: colors.danger,
   },
   circleIcon: {
     fontSize: 20,
-    color: colors.card
+    color: colors.card,
   },
   headerTitle: {
     fontSize: 20,
     fontWeight: '700',
-    color: colors.text
+    color: colors.text,
   },
   headerDescription: {
     fontSize: 12,
     fontWeight: '500',
-    color: colors.mutedLight
+    color: colors.mutedLight,
   },
   // Flatlist
   listContent: {
     flexGrow: 1,
     paddingVertical: 24,
-    backgroundColor: colors.bg
+    backgroundColor: colors.bg,
   },
   card: {
     flexDirection: 'row',
@@ -133,14 +133,13 @@ export const FavoriteDetailStyles = StyleSheet.create({
     fontSize: 18,
     fontWeight: '700',
     textAlign: 'center',
-    color: colors.text
+    color: colors.text,
   },
   emptyDescription: {
     fontSize: 12,
     fontWeight: '400',
     textAlign: 'center',
-    color: colors.textSecondary
-
+    color: colors.textSecondary,
   },
   btnExplore: {
     height: 48,
@@ -153,5 +152,5 @@ export const FavoriteDetailStyles = StyleSheet.create({
     fontSize: 14,
     fontWeight: '700',
     color: colors.card,
-  }
+  },
 });

@@ -1,5 +1,5 @@
 // Librerias
-import { useEffect, useState } from "react";
+import { useEffect, useState } from 'react';
 import {
   withSpring,
   withSequence,
@@ -8,42 +8,84 @@ import {
 } from 'react-native-reanimated';
 
 // Interfaces
-import { ProductDetailsRoute } from "../Navigation/types";
-import { Product } from "../../api/interface/Product";
+import { ProductDetailsRoute } from '../Navigation/types';
+import { Product } from '../../api/interface/Product';
+import { HttpError } from '../../api/HttpError';
 
 // Services
-import { getByIdProductService } from "../../api/services";
+import { getByIdProductService } from '../../api/services';
 
 // Store
-import { useProductStore } from "../../store/ProductsStore";
+import { useProductStore } from '../../store/ProductsStore';
 
 // Utils
-import { isAbortError } from "../../shared/utils/generalFunction";
-import { getDiscountedPrice, getDiscountValue } from "../../shared/utils/generalFunction";
-
+import { isAbortError } from '../../shared/utils/generalFunction';
+import {
+  getDiscountedPrice,
+  getDiscountValue,
+} from '../../shared/utils/generalFunction';
 
 export const ProductDetailsPresenter = (route: ProductDetailsRoute) => {
+  const [productDetail, setProducDetail] = useState<Product | undefined>(
+    undefined,
+  );
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const [attempt, setAttempt] = useState(0);
 
-  const [productDetail, setProducDetail] = useState<Product | undefined>(undefined);
-  
   useEffect(() => {
     const controller = new AbortController();
-    if (route.params?.ProductId) {
-      getByIdProduct(route.params.ProductId, controller.signal)
+    const productId = route.params?.ProductId;
+
+    setProducDetail(undefined);
+    setError(null);
+    setLoading(true);
+
+    if (!productId) {
+      setError('No se indicó qué producto se debe cargar.');
+      setLoading(false);
+      return () => controller.abort();
     }
+
+    async function loadProduct() {
+      try {
+        const product = await getByIdProductService(
+          productId,
+          controller.signal,
+        );
+        if (!controller.signal.aborted) setProducDetail(product);
+      } catch (requestError) {
+        if (isAbortError(requestError)) return;
+        setError(
+          requestError instanceof HttpError
+            ? requestError.message
+            : 'No se pudo cargar el producto. Inténtalo de nuevo.',
+        );
+      } finally {
+        if (!controller.signal.aborted) setLoading(false);
+      }
+    }
+
+    loadProduct();
     return () => controller.abort();
-  }, [route.params?.ProductId]);
-  
+  }, [route.params?.ProductId, attempt]);
+
   // Store - States
-  const isFavoriteStore = useProductStore((state) => state.products.some((product) => product.id === productDetail?.id));
-  
+  const isFavoriteStore = useProductStore(state =>
+    state.products.some(product => product.id === productDetail?.id),
+  );
+
   // Store - Actions
-  const addProductStore = useProductStore((state) => state.addProductsFavorites);
-  const removeProductStore = useProductStore((state) => state.removeProductsFavorites);
-  
+  const addProductStore = useProductStore(state => state.addProductsFavorites);
+  const removeProductStore = useProductStore(
+    state => state.removeProductsFavorites,
+  );
+
   const discount = getDiscountValue(productDetail?.discountPercentage);
   const hasDiscount = discount > 0;
-  const displayPrice = hasDiscount ? getDiscountedPrice(productDetail?.price || 0, discount) : productDetail?.price || 0;
+  const displayPrice = hasDiscount
+    ? getDiscountedPrice(productDetail?.price || 0, discount)
+    : productDetail?.price || 0;
 
   const favoriteScale = useSharedValue(1);
 
@@ -53,24 +95,19 @@ export const ProductDetailsPresenter = (route: ProductDetailsRoute) => {
 
   function animateFavorite() {
     favoriteScale.value = withSequence(
-      withSpring(1.30, { damping: 5 }),
+      withSpring(1.3, { damping: 5 }),
       withSpring(1),
     );
   }
 
-  async function getByIdProduct(ProductId: number, signal: AbortSignal) {
-    try {
-      const resp = await getByIdProductService(ProductId, signal)
-      if (signal.aborted) return;
-      setProducDetail(resp);
-    } catch (error) {
-      if (isAbortError(error)) return;
-      console.error(error)
-    }
-  };
+  function retry() {
+    setAttempt(prev => prev + 1);
+  }
 
   return {
     //Variables
+    loading,
+    error,
     discount,
     displayPrice,
     productDetail,
@@ -80,6 +117,7 @@ export const ProductDetailsPresenter = (route: ProductDetailsRoute) => {
     // Actions
     addProductStore,
     removeProductStore,
-    animateFavorite
-  }
-}
+    animateFavorite,
+    retry,
+  };
+};

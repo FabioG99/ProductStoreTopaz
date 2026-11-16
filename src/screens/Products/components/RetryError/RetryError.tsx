@@ -1,10 +1,10 @@
-import { Pressable, Text, View } from "react-native";
-import { ProductStyles } from "../../ProductsStyle";
+import { Pressable, Text, View } from 'react-native';
+import { ProductStyles } from '../../ProductsStyle';
 
 interface Props {
-    message: string;
-    onRetry: () => void;
-};
+  message: string;
+  onRetry: () => void;
+}
 
 export const RetryError = ({ message, onRetry }: Props) => (
   <View style={ProductStyles.error}>

@@ -137,11 +137,34 @@ Las imágenes remotas de las tarjetas de producto y del carrusel de detalle usan
 
 ### Networking
 
-La capa de red usa `fetch` y se concentra en `src/api/http.ts` y `src/api/services.ts`, evitando llamadas directas desde las pantallas. La URL base se configura en un único lugar, `src/shared/utils/constants.ts` (`BASE_URL`), para poder cambiar el host sin modificar los servicios individuales. `buildUrl()` agrega los parámetros de consulta.
+La capa de red usa `fetch` y se concentra en `src/api/http.ts` y `src/api/services.ts`, evitando llamadas directas desde las pantallas. La URL base se lee desde `API_BASE_URL` mediante `react-native-config` y se centraliza en `src/shared/utils/constants.ts` (`BASE_URL`), para poder cambiar el host por entorno sin modificar los servicios individuales. `buildUrl()` agrega los parámetros de consulta.
 
-El cliente HTTP centralizado propaga las opciones de `RequestInit` (incluido `AbortSignal`), aplica los headers comunes y convierte respuestas HTTP no exitosas en `HttpError`. Los errores de transporte también se normalizan como `HttpError`, mientras que las cancelaciones se vuelven a propagar para que la capa que inició la solicitud pueda ignorarlas explícitamente.
+Para configurar el entorno local, copia `.env.example` a `.env`. Para usar otro servidor, cambia `API_BASE_URL` en el archivo de entorno correspondiente. Los archivos `.env` locales están excluidos de Git; `.env.example` documenta las variables requeridas. Estas variables se empaquetan en la aplicación, así que no deben contener secretos.
 
-Las pantallas/presenters crean un `AbortController` por ciclo de vida de solicitud y cancelan las solicitudes pendientes al desmontarse. Esto se aplica a la lista, categorías y detalle del producto. No se usa un cliente adicional como Axios porque `fetch` nativo cubre las necesidades actuales y el wrapper centralizado aporta la configuración y el manejo de errores comunes.
+`react-native-config` se instala con Yarn y se autolinkea. En iOS, instala los Pods y reconstruye la app:
+
+```sh
+cd ios && bundle exec pod install && cd ..
+yarn ios
+```
+
+En Android, aplica el paso adicional de la librería en `android/app/build.gradle`:
+
+```gradle
+apply from: project(':react-native-config').projectDir.getPath() + "/dotenv.gradle"
+```
+
+Después reconstruye la app:
+
+```sh
+yarn android
+```
+
+Para seleccionar otro archivo de entorno, por ejemplo `.env.production`, ejecuta `ENVFILE=.env.production yarn ios` o `ENVFILE=.env.production yarn android`.
+
+El cliente HTTP centralizado aplica los headers comunes y convierte respuestas HTTP no exitosas en `HttpError`. También informa explícitamente de fallos de conexión, respuestas JSON inválidas y timeout (15 segundos). Las cancelaciones iniciadas por desmontaje o cambio de filtro se propagan sin mostrarse como errores al usuario.
+
+Las pantallas/presenters crean un `AbortController` por ciclo de vida de solicitud y cancelan las solicitudes pendientes al desmontarse. La lista, la carga de categorías y el detalle muestran errores recuperables con una opción para reintentar. Un Error Boundary global en `src/App.tsx` ofrece una pantalla de recuperación ante errores de renderizado no controlados. No se usa un cliente adicional como Axios porque `fetch` nativo cubre las necesidades actuales y el wrapper centralizado aporta la configuración y el manejo de errores comunes.
 
 ### Persistencia local
 

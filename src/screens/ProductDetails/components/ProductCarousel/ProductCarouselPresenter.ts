@@ -1,10 +1,16 @@
 import { useState } from 'react';
-import { LayoutChangeEvent, NativeScrollEvent, NativeSyntheticEvent } from 'react-native';
+import {
+  LayoutChangeEvent,
+  NativeScrollEvent,
+  NativeSyntheticEvent,
+} from 'react-native';
 
 export const ProductCarouselPresenter = (images: string[]) => {
-
   const [itemIndex, setItemIndex] = useState<number>(0);
-  const [size, setSize] = useState<{ width: number, height: number }>({ width: 0, height: 0 });
+  const [size, setSize] = useState<{ width: number; height: number }>({
+    width: 0,
+    height: 0,
+  });
 
   const onLayout = (event: LayoutChangeEvent) => {
     const { width, height } = event.nativeEvent.layout;

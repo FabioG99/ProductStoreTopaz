@@ -18,7 +18,6 @@ import { ProductCardStyles } from './ProductCardStyle';
 import { formatPrice } from '../../shared/utils/generalFunction';
 
 export const ProductCard = ({ item }: { item: Product }) => {
-
   const {
     // Variables
     discount,
@@ -58,19 +57,27 @@ export const ProductCard = ({ item }: { item: Product }) => {
         )}
       </View>
       <View style={ProductCardStyles.info}>
-        <Text style={ProductCardStyles.title} numberOfLines={2}>{item?.title || ''}</Text>
+        <Text style={ProductCardStyles.title} numberOfLines={2}>
+          {item?.title || ''}
+        </Text>
         <View style={ProductCardStyles.priceRow}>
-          <Text style={ProductCardStyles.price}>{formatPrice(displayPrice)}</Text>
+          <Text style={ProductCardStyles.price}>
+            {formatPrice(displayPrice)}
+          </Text>
           {hasDiscount && (
-            <Text style={ProductCardStyles.oldPrice}>{formatPrice(item.price)}</Text>
+            <Text style={ProductCardStyles.oldPrice}>
+              {formatPrice(item.price)}
+            </Text>
           )}
         </View>
         <Pressable
           style={ProductCardStyles.btnFavorites}
-          onPress={(event) => {
+          onPress={event => {
             event.stopPropagation();
+            isFavoriteStore
+              ? removeProductStore(item.id)
+              : addProductStore(item);
             toggleFavorite();
-            isFavoriteStore ? removeProductStore(item.id) : addProductStore(item);
           }}
         >
           <Animated.View style={favoriteAnimatedStyle}>
@@ -83,5 +90,5 @@ export const ProductCard = ({ item }: { item: Product }) => {
         </Pressable>
       </View>
     </Pressable>
-  )
-}
+  );
+};

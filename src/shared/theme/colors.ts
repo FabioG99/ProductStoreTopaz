@@ -11,7 +11,7 @@ export const colors = {
   info: '#38B2D8',
   star: '#F5A524',
   textSecondary: '#1E293B',
-  bgSecondary: '#e7e8fa'
+  bgSecondary: '#e7e8fa',
 } as const;
 
 export type ColorName = keyof typeof colors;

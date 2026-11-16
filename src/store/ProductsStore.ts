@@ -8,7 +8,7 @@ import { createJSONStorage, devtools, persist } from 'zustand/middleware';
 import { Product } from '../api/interface/Product';
 
 interface ProductState {
-  products: Product[]
+  products: Product[];
 }
 
 interface Actions {
@@ -18,29 +18,39 @@ interface Actions {
 
 const initialState: ProductState = {
   products: [],
-}
+};
 
 export const useProductStore = create<ProductState & Actions>()(
   devtools(
     persist(
-      immer((set) => ({
+      immer(set => ({
         ...initialState,
 
-        addProductsFavorites: (product) =>
-          set((state) => {
-            state.products.push(product)
-          }, false, 'addProductsFavorites'),
+        addProductsFavorites: product =>
+          set(
+            state => {
+              state.products.push(product);
+            },
+            false,
+            'addProductsFavorites',
+          ),
 
-        removeProductsFavorites: (id) =>
-          set((state) => {
-            state.products = state.products.filter((product) => product.id !== id);
-          }, false, 'removeProductsFavorites'),
+        removeProductsFavorites: id =>
+          set(
+            state => {
+              state.products = state.products.filter(
+                product => product.id !== id,
+              );
+            },
+            false,
+            'removeProductsFavorites',
+          ),
       })),
       {
         name: 'productStore-favorites',
         storage: createJSONStorage(() => AsyncStorage),
-        partialize: (state) => ({ products: state.products }),
+        partialize: state => ({ products: state.products }),
       },
-    )
-  )
-)
+    ),
+  ),
+);

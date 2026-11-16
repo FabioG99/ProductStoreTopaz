@@ -22,4 +22,7 @@ export type ProductsStackParamList = {
 };
 
 export type ProductDetailsRoute = RouteProp<RootStackParamList, 'Details'>;
-export type ProductDetailsScreenProps = NativeStackScreenProps<RootStackParamList, 'Details'>;
+export type ProductDetailsScreenProps = NativeStackScreenProps<
+  RootStackParamList,
+  'Details'
+>;

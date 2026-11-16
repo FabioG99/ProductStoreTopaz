@@ -1,20 +1,21 @@
-import { Params } from "../../api/interface/RequestOptions";
-import { BASE_URL } from "./constants";
+import { Params } from '../../api/interface/RequestOptions';
+import { BASE_URL } from './constants';
 
 // Se arma a mano porque URLSearchParams está incompleto en React Native
 export const buildUrl = (path: string, params?: Params): string => {
   const query = Object.entries(params ?? {})
     .filter(([, value]) => value !== undefined)
-    .map(([k, v]) => `${encodeURIComponent(k)}=${encodeURIComponent(String(v))}`)
-    .join("&");
-  return `${BASE_URL}${path}${query ? `?${query}` : ""}`;
+    .map(
+      ([k, v]) => `${encodeURIComponent(k)}=${encodeURIComponent(String(v))}`,
+    )
+    .join('&');
+  return `${BASE_URL}${path}${query ? `?${query}` : ''}`;
 };
 
 export const isAbortError = (err: unknown): boolean =>
-  typeof err === "object" &&
+  typeof err === 'object' &&
   err !== null &&
-  (err as { name?: string }).name === "AbortError";
-
+  (err as { name?: string }).name === 'AbortError';
 
 export const formatPrice = (value: number) => `$${value.toFixed(2)}`;
 

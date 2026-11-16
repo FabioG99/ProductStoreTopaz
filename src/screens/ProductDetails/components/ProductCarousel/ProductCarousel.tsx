@@ -13,7 +13,6 @@ interface Props {
 }
 
 export const ProductCarousel = ({ images }: Props) => {
-
   const {
     // Variables
     size,
@@ -22,14 +21,11 @@ export const ProductCarousel = ({ images }: Props) => {
 
     // Actions
     onLayout,
-    onScrollEnd
+    onScrollEnd,
   } = ProductCarouselPresenter(images);
 
   return (
-    <View
-      onLayout={onLayout}
-      style={ProductCarouselStyle.container}
-    >
+    <View onLayout={onLayout} style={ProductCarouselStyle.container}>
       {size.width > 0 && (
         <FlatList
           horizontal
@@ -56,14 +52,14 @@ export const ProductCarousel = ({ images }: Props) => {
         />
       )}
       {showPagination && (
-        <View
-          pointerEvents="none"
-          style={ProductCarouselStyle.dots}
-        >
+        <View pointerEvents="none" style={ProductCarouselStyle.dots}>
           {images.map((_, index) => (
             <View
               key={index}
-              style={[ProductCarouselStyle.dot, index === itemIndex && ProductCarouselStyle.dotActive]}
+              style={[
+                ProductCarouselStyle.dot,
+                index === itemIndex && ProductCarouselStyle.dotActive,
+              ]}
             />
           ))}
         </View>

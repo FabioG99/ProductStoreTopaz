@@ -20,7 +20,7 @@ export const ProductDetailStyles = StyleSheet.create({
     borderWidth: 1,
     borderRadius: 16,
     borderColor: colors.border,
-    backgroundColor: colors.card
+    backgroundColor: colors.card,
   },
   btnFavorites: {
     top: 14,
@@ -33,7 +33,7 @@ export const ProductDetailStyles = StyleSheet.create({
     position: 'absolute',
     justifyContent: 'center',
     borderColor: colors.border,
-    backgroundColor: colors.placeholder
+    backgroundColor: colors.placeholder,
   },
 
   // Info basic
@@ -45,17 +45,17 @@ export const ProductDetailStyles = StyleSheet.create({
     paddingVertical: 10,
     paddingHorizontal: 15,
     alignSelf: 'flex-start',
-    backgroundColor: colors.bgSecondary
+    backgroundColor: colors.bgSecondary,
   },
   textCategory: {
     fontSize: 10,
     fontWeight: '700',
-    color: colors.primary
+    color: colors.primary,
   },
   productTitle: {
     fontSize: 20,
     fontWeight: '700',
-    color: colors.text
+    color: colors.text,
   },
 
   //Info prices
@@ -65,17 +65,17 @@ export const ProductDetailStyles = StyleSheet.create({
     borderWidth: 1,
     borderRadius: 16,
     borderColor: colors.border,
-    backgroundColor: colors.card
+    backgroundColor: colors.card,
   },
   wrapBadge: {
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'space-between'
+    justifyContent: 'space-between',
   },
   titleBadge: {
     fontSize: 14,
     fontWeight: '600',
-    color: colors.mutedLight
+    color: colors.mutedLight,
   },
   badge: {
     borderRadius: 100,
@@ -134,11 +134,11 @@ export const ProductDetailStyles = StyleSheet.create({
     paddingHorizontal: 30,
     alignSelf: 'flex-start',
     borderColor: colors.border,
-    backgroundColor: colors.card
+    backgroundColor: colors.card,
   },
   textTag: {
     fontSize: 12,
     fontWeight: '600',
-    color: colors.text
-  }
+    color: colors.text,
+  },
 });

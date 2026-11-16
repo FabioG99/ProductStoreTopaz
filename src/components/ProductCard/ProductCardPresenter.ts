@@ -1,32 +1,38 @@
 // Libraries
-import { NavigationProp, useNavigation } from "@react-navigation/native";
+import { NavigationProp, useNavigation } from '@react-navigation/native';
 import {
   withSpring,
   withSequence,
   useSharedValue,
   useAnimatedStyle,
-} from "react-native-reanimated";
+} from 'react-native-reanimated';
 
 // Interface
-import { Product } from "../../api/interface/Product";
-import { RootStackParamList } from "../../screens/Navigation/types";
+import { Product } from '../../api/interface/Product';
+import { RootStackParamList } from '../../screens/Navigation/types';
 
 // Store
-import { useProductStore } from "../../store/ProductsStore";
+import { useProductStore } from '../../store/ProductsStore';
 
 // Utils
-import { getDiscountedPrice, getDiscountValue } from "../../shared/utils/generalFunction";
+import {
+  getDiscountedPrice,
+  getDiscountValue,
+} from '../../shared/utils/generalFunction';
 
 export const ProductCardPresenter = (item: Product) => {
-
   const { navigate } = useNavigation<NavigationProp<RootStackParamList>>();
 
   // Store - States
-  const isFavoriteStore = useProductStore((state) => state.products.some((product) => product.id === item.id));
-  
+  const isFavoriteStore = useProductStore(state =>
+    state.products.some(product => product.id === item.id),
+  );
+
   // Store - Actions
-  const addProductStore = useProductStore((state) => state.addProductsFavorites);
-  const removeProductStore = useProductStore((state) => state.removeProductsFavorites);
+  const addProductStore = useProductStore(state => state.addProductsFavorites);
+  const removeProductStore = useProductStore(
+    state => state.removeProductsFavorites,
+  );
 
   const favoriteScale = useSharedValue(1);
 
@@ -36,7 +42,9 @@ export const ProductCardPresenter = (item: Product) => {
 
   const discount = getDiscountValue(item.discountPercentage);
   const hasDiscount = discount > 0;
-  const displayPrice = hasDiscount ? getDiscountedPrice(item.price, discount) : item.price;
+  const displayPrice = hasDiscount
+    ? getDiscountedPrice(item.price, discount)
+    : item.price;
 
   const toggleFavorite = () => {
     favoriteScale.value = withSequence(
@@ -46,8 +54,8 @@ export const ProductCardPresenter = (item: Product) => {
   };
 
   const handlePressDetails = (ProductId: number) => {
-    navigate("Details", { ProductId });
-  }
+    navigate('Details', { ProductId });
+  };
 
   return {
     // Variables
@@ -62,5 +70,5 @@ export const ProductCardPresenter = (item: Product) => {
     addProductStore,
     removeProductStore,
     handlePressDetails,
-  }
-}
+  };
+};

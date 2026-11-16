@@ -58,11 +58,11 @@ export const ProductStyles = StyleSheet.create({
   // Product Card
   listContent: {
     flexGrow: 1,
-    paddingBottom: 24
+    paddingBottom: 24,
   },
   // ActivityIndicator
   indicator: {
-    margin: 10
+    margin: 10,
   },
   error: {
     alignItems: 'center',
@@ -110,13 +110,12 @@ export const ProductStyles = StyleSheet.create({
     fontSize: 18,
     fontWeight: '700',
     textAlign: 'center',
-    color: colors.text
+    color: colors.text,
   },
   emptyDescription: {
     fontSize: 12,
     fontWeight: '400',
     textAlign: 'center',
-    color: colors.textSecondary
-
+    color: colors.textSecondary,
   },
 });

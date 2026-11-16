@@ -15,7 +15,6 @@ interface Props {
 }
 
 export const StarRating = ({ rating, showValue = true }: Props) => {
-
   const { stars, fillWidth, label } = StartRatingPresenter(rating);
 
   return (
@@ -31,15 +30,15 @@ export const StarRating = ({ rating, showValue = true }: Props) => {
             />
           ))}
         </View>
-        <View style={[StartRatingStyle.fill, { width: fillWidth as DimensionValue }]}>
+        <View
+          style={[
+            StartRatingStyle.fill,
+            { width: fillWidth as DimensionValue },
+          ]}
+        >
           <View style={StartRatingStyle.starsRow}>
             {stars.map(i => (
-              <Ionicons
-                key={i}
-                size={16}
-                name={'star'}
-                color={colors.star}
-              />
+              <Ionicons key={i} size={16} name={'star'} color={colors.star} />
             ))}
           </View>
         </View>
@@ -47,4 +46,4 @@ export const StarRating = ({ rating, showValue = true }: Props) => {
       {showValue && <Text style={StartRatingStyle.value}>{label}</Text>}
     </View>
   );
-}
+};

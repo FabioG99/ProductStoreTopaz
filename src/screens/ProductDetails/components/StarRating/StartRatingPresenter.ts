@@ -1,9 +1,9 @@
 const MAX_STARS = 5;
 
 export interface StarRatingViewModel {
-  stars: number[];    // [0, 1, 2, 3, 4] para iterar
-  fillWidth: string;  // porcentaje de relleno, ej. "51.2%"
-  label: string;      // valor numérico, ej. "2.6"
+  stars: number[]; // [0, 1, 2, 3, 4] para iterar
+  fillWidth: string; // porcentaje de relleno, ej. "51.2%"
+  label: string; // valor numérico, ej. "2.6"
 }
 
 export const StartRatingPresenter = (rating: number): StarRatingViewModel => {

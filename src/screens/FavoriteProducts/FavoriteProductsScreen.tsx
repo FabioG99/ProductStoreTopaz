@@ -18,21 +18,17 @@ export const FavoriteProducts = () => {
     productStore,
 
     // Actions
-    handlePressProducst
+    handlePressProducst,
   } = FavoriteProductsPresenter();
 
   return (
     <SafeAreaView style={FavoriteDetailStyles.safe} edges={['top']}>
       <View style={FavoriteDetailStyles.header}>
         <View style={FavoriteDetailStyles.circle}>
-          <Text style={FavoriteDetailStyles.circleIcon}>
-            ♥
-          </Text>
+          <Text style={FavoriteDetailStyles.circleIcon}>♥</Text>
         </View>
         <View>
-          <Text style={FavoriteDetailStyles.headerTitle}>
-            Mis Favoritos
-          </Text>
+          <Text style={FavoriteDetailStyles.headerTitle}>Mis Favoritos</Text>
           <Text style={FavoriteDetailStyles.headerDescription}>
             {productStore?.length || 0} Guardados
           </Text>
@@ -51,19 +47,23 @@ export const FavoriteProducts = () => {
                 Aún no tienes favoritos
               </Text>
               <Text style={FavoriteDetailStyles.emptyDescription}>
-                Guarda los artículos que más te gusten tocando el ícono de corazón <Text style={{ color: colors.danger }}>♥ </Text>
-                en el catálogo o en el detalle. Se almacenarán al instante en esta sección.
+                Guarda los artículos que más te gusten tocando el ícono de
+                corazón <Text style={{ color: colors.danger }}>♥ </Text>
+                en el catálogo o en el detalle. Se almacenarán al instante en
+                esta sección.
               </Text>
               <Pressable
                 onPress={() => handlePressProducst()}
                 style={FavoriteDetailStyles.btnExplore}
               >
-                <Text style={FavoriteDetailStyles.btnExploreText}>Explorar Productos</Text>
+                <Text style={FavoriteDetailStyles.btnExploreText}>
+                  Explorar Productos
+                </Text>
               </Pressable>
             </View>
           </View>
         }
       />
     </SafeAreaView>
-  )
-}
+  );
+};
