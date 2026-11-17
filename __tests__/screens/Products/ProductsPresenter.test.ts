@@ -4,18 +4,18 @@ import {
   getFilterCategoryService,
   getFilterProductService,
   getProductListServices,
-} from '../src/api/services';
-import { Categories } from '../src/api/interface/Categories';
-import { Paginated } from '../src/api/interface/Paginated';
-import { Product } from '../src/api/interface/Product';
-import { ProductsPresenter } from '../src/screens/Products/ProductsPresenter';
+} from '../../../src/api/services';
+import { Categories } from '../../../src/api/interface/Categories';
+import { Paginated } from '../../../src/api/interface/Paginated';
+import { Product } from '../../../src/api/interface/Product';
+import { ProductsPresenter } from '../../../src/screens/Products/ProductsPresenter';
 
 jest.mock('react-native-config', () => ({
   __esModule: true,
   default: { API_BASE_URL: 'https://dummyjson.com' },
 }));
 
-jest.mock('../src/api/services', () => ({
+jest.mock('../../../src/api/services', () => ({
   getAllCategoryListService: jest.fn(),
   getFilterCategoryService: jest.fn(),
   getFilterProductService: jest.fn(),

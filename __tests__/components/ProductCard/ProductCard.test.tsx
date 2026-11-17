@@ -1,7 +1,7 @@
 import { fireEvent, render, screen } from '@testing-library/react-native';
-import { Product } from '../src/api/interface/Product';
-import { ProductCard } from '../src/components/ProductCard/ProductCard';
-import { useProductStore } from '../src/store/ProductsStore';
+import { Product } from '../../../src/api/interface/Product';
+import { ProductCard } from '../../../src/components/ProductCard/ProductCard';
+import { useProductStore } from '../../../src/store/ProductsStore';
 
 // useNavigation devuelve solo `navigate`; se declara con prefijo "mock" para poder usarla dentro de jest.mock
 const mockNavigate = jest.fn();

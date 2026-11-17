@@ -3,7 +3,7 @@ jest.mock('react-native-config', () => ({
   default: { API_BASE_URL: 'https://dummyjson.com/' },
 }));
 
-import { buildUrl, formatPrice, getDiscountValue, getDiscountedPrice } from '../src/shared/utils/generalFunction';
+import { buildUrl, formatPrice, getDiscountValue, getDiscountedPrice } from '../../../src/shared/utils/generalFunction';
 
 describe('generalFunction', () => {
   it('formatea los precios con dos decimales', () => {

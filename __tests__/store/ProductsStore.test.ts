@@ -7,8 +7,8 @@ jest.mock('@react-native-async-storage/async-storage', () => ({
   },
 }));
 
-import { Product } from '../src/api/interface/Product';
-import { useProductStore } from '../src/store/ProductsStore';
+import { Product } from '../../src/api/interface/Product';
+import { useProductStore } from '../../src/store/ProductsStore';
 
 const product = {
   id: 1,
